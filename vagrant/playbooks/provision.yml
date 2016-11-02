@@ -1,0 +1,40 @@
+- hosts: all
+  tasks:
+    - yum: name=* state=latest
+
+    - yum: name={{item}} state=installed
+      with_items:
+      - "git"
+      - "@Development tools"
+      - "zlib-devel"
+      - "bzip2-devel"
+      - "openssl-devel"
+      - "ncurses-devel"
+      - "sqlite-devel"
+      - "readline-devel"
+      - "tk-devel"
+
+    - set_fact:
+        python_version: 2.7.12
+
+    - get_url: url="https://www.python.org/ftp/python/{{python_version}}/Python-{{python_version}}.tar.xz" validate_certs=no dest=/tmp
+
+    - command: tar xf Python-{{python_version}}.tar.xz
+      args:
+        chdir: /tmp
+        creates: /tmp/Python-{{python_version}}
+
+    - shell: ./configure --prefix=/usr/local && /usr/bin/make && /usr/bin/make altinstall
+      args:
+        chdir: /tmp/Python-{{python_version}}
+        creates: /usr/local/bin/python2.7
+
+    - easy_install: name=pip state=present
+
+    - pip: name={{ item }}
+      with_items:
+      - "awscli"
+      - "boto"
+      - "boto3"
+
+    - service: name=ntpd state=started
