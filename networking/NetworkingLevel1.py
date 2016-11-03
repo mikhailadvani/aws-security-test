@@ -13,7 +13,7 @@ class NetworkingLevel1(unittest.TestCase):
 
     def _getSecurityGroupsWithProtocolPortOpenFromInternet(self, protocol, port):
         securityGroups = []
-        for sg in EC2('us-east-1').get_security_groups()['SecurityGroups']:
+        for sg in EC2().get_security_groups()['SecurityGroups']:
             securityGroup = SecurityGroup(sg['VpcId'], sg['GroupId'], sg['IpPermissions'])
             if securityGroup.inboundProtocolPortOpenFromInternet(protocol, port):
                 securityGroups.append(securityGroup)
