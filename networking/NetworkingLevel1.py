@@ -11,6 +11,14 @@ class NetworkingLevel1(unittest.TestCase):
                 securityGroups.append(securityGroup)
         self.assertEqual([], securityGroups, "Security groups %s allow SSH from Internet" % self._groupIdsVpcIds(securityGroups))
 
+    def testRdpNotOpenFromInternet(self):
+        securityGroups = []
+        for sg in EC2('us-east-1').get_security_groups()['SecurityGroups']:
+            securityGroup = SecurityGroup(sg['VpcId'], sg['GroupId'], sg['IpPermissions'])
+            if securityGroup.inboundRdpOpenFromInternet():
+                securityGroups.append(securityGroup)
+        self.assertEqual([], securityGroups, "Security groups %s allow RDP from Internet" % self._groupIdsVpcIds(securityGroups))
+
     def _groupIdsVpcIds(self, securityGroups):
         ids = []
         for sg in securityGroups:

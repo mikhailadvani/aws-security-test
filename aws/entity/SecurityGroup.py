@@ -11,9 +11,12 @@ class SecurityGroup:
         self.securityGroupRules = sgRules
 
     def inboundSshOpenFromInternet(self):
-        return self.inboundProtocolPortOpenFromInternet('tcp', 22)
+        return self._inboundProtocolPortOpenFromInternet('tcp', 22)
 
-    def inboundProtocolPortOpenFromInternet(self, protocol, port):
+    def inboundRdpOpenFromInternet(self):
+        return self._inboundProtocolPortOpenFromInternet('tcp', 3389)
+
+    def _inboundProtocolPortOpenFromInternet(self, protocol, port):
         accessAllowed = False
         for securityGroupRule in self.securityGroupRules:
             accessAllowed = accessAllowed | securityGroupRule.accessToProtocolPortAllowedFromInternet(protocol, port)
