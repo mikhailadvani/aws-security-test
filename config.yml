@@ -1,0 +1,3 @@
+networkingLevel1:
+    testSshNotOpenFromInternet: True
+    testRdpNotOpenFromInternet: True
