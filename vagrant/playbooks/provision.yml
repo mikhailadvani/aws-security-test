@@ -34,7 +34,6 @@
     - pip: name={{ item }}
       with_items:
       - "awscli"
-      - "boto"
       - "boto3"
 
     - service: name=ntpd state=started
