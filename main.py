@@ -3,6 +3,7 @@ import yaml
 import boto3
 import argparse
 from networking import NetworkingLevel1
+from iam import IamLevel1
 
 suite = unittest.TestSuite()
 
@@ -18,6 +19,10 @@ testConfig = yaml.load(open(args.config, 'r'))
 for test, enabled in testConfig['networkingLevel1'].iteritems():
     if enabled:
         suite.addTest(NetworkingLevel1(test))
+
+for test, enabled in testConfig['iamLevel1'].iteritems():
+    if enabled:
+        suite.addTest(IamLevel1(test))
 
 runner = unittest.TextTestRunner()
 runner.run(suite)

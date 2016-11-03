@@ -1,3 +1,6 @@
 networkingLevel1:
-    testSshNotOpenFromInternet: True
-    testRdpNotOpenFromInternet: True
+  testSshNotOpenFromInternet: True
+  testRdpNotOpenFromInternet: True
+
+iamLevel1:
+  testMfaEnabledForConsoleUsers: True
