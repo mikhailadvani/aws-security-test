@@ -25,4 +25,4 @@ for test, enabled in testConfig['iamLevel1'].iteritems():
         suite.addTest(IamLevel1(test))
 
 runner = unittest.TextTestRunner()
-runner.run(suite)
+exit(len(runner.run(suite).failures))
