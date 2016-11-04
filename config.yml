@@ -4,3 +4,4 @@ networkingLevel1:
 
 iamLevel1:
   testMfaEnabledForConsoleUsers: True
+  testUnusedCredentialsAreDeactivated: True
