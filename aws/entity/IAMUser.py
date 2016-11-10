@@ -8,6 +8,7 @@ class IAMUser():
         self.passwordEnabled = userDict['password_enabled'] != 'false'
         self.passwordLastUsed = userDict['password_last_used']
         self.accessKeysRotatedDates = self._setAccessKeyRotatedDates(userDict)
+        self.accessKeysUsedDates = self._setAccessKeyUsedDates(userDict)
 
     def mfaEnabled(self):
         return (not self.passwordEnabled) | self.mfa
@@ -18,11 +19,22 @@ class IAMUser():
         else:
             return True
 
+    def accessKeysUsed(self, days):
+        return self._checkKeyDate('used', days)
+
     def accessKeysRotated(self, days):
-        keysRotated = True
-        for accessKeyRotatedDate in self.accessKeysRotatedDates:
-            keysRotated = keysRotated & (self._daysPassed(accessKeyRotatedDate) <= days)
-        return keysRotated
+        return self._checkKeyDate('rotated', days)
+
+    def _checkKeyDate(self, action, days):
+        # keyDates = []
+        if action == 'used':
+            keyDates = self.accessKeysUsedDates
+        else:
+            keyDates = self.accessKeysRotatedDates
+        keyAccessed = False
+        for keyDate in keyDates:
+            keyAccessed = keyAccessed | (self._daysPassed(keyDate) >= days)
+        return not keyAccessed
 
     def _daysPassed(self, dateStr):
         passwordLastUsedDate = parse(dateStr)
@@ -38,3 +50,11 @@ class IAMUser():
         if userDict['access_key_2_active'] == 'true':
             accessKeysRotatedDates.append(userDict['access_key_2_last_rotated'])
         return accessKeysRotatedDates
+
+    def _setAccessKeyUsedDates(self, userDict):
+        accessKeysUsedDates = []
+        if userDict['access_key_1_active'] == 'true':
+            accessKeysUsedDates.append(userDict['access_key_1_last_used_date'])
+        if userDict['access_key_2_active'] == 'true':
+            accessKeysUsedDates.append(userDict['access_key_1_last_used_date'])
+        return accessKeysUsedDates

@@ -14,9 +14,9 @@ class IamLevel1(unittest.TestCase):
         oldUserTimePeriod = 90
         iamUsersWithUnusedCredentials = []
         for iamUser in self._getIamUserList():
-            if not iamUser.credentialsUsed(oldUserTimePeriod):
+            if ((not iamUser.credentialsUsed(oldUserTimePeriod)) | (not iamUser.accessKeysUsed(oldUserTimePeriod))):
                 iamUsersWithUnusedCredentials.append(iamUser)
-        self.assertEqual([], iamUsersWithUnusedCredentials, "Active users %s have passwords unused for long" % self._users(iamUsersWithUnusedCredentials))
+        self.assertEqual([], iamUsersWithUnusedCredentials, "Active users %s have passwords/access keys unused for long" % self._users(iamUsersWithUnusedCredentials))
 
     def testAccessKeysAreRotated(self):
         oldAccessKeyTimePeriodInDays = 90
