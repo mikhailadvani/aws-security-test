@@ -11,3 +11,5 @@ iamLevel1:
   testPasswordPolicyRequiresNumbers: True
   testPasswordPolicyRequiresSymbols: True
   testPasswordPolicyRequiresMinimumLength: True
+  testPasswordPolicyPreventsPasswordReuse: True
+  testPasswordPolicyEnsuresPasswordExpiry: True

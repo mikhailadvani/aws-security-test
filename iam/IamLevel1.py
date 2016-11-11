@@ -42,9 +42,17 @@ class IamLevel1(unittest.TestCase):
         requirePasswordLength = 14
         self.assertTrue(self._getPasswordPolicyField('MinimumPasswordLength') >= requirePasswordLength, "Password policy does not mandate required minimum length of password")
 
-    def _getPasswordPolicyField(self, field):
+    def testPasswordPolicyPreventsPasswordReuse(self):
+        requiredPasswordsToRemember = 24
+        self.assertTrue(self._getPasswordPolicyField('PasswordReusePrevention', 0) >= requiredPasswordsToRemember, "Password policy does not mandate minimum password re-use prevention")
+
+    def testPasswordPolicyEnsuresPasswordExpiry(self):
+        requiredPasswordExpirationPeriod = 90
+        self.assertTrue(self._getPasswordPolicyField('MaxPasswordAge', 1000) <= requiredPasswordExpirationPeriod, "Password policy does not mandate minimum password expiry time")
+
+    def _getPasswordPolicyField(self, field, default=False):
         passwordPolicy = IAM().getPasswordPolicy()
-        return passwordPolicy['PasswordPolicy'][field]
+        return passwordPolicy['PasswordPolicy'].get(field, default)
 
     def _getIamUserList(self):
         iamUserList = []
