@@ -26,6 +26,13 @@ class IamLevel1(unittest.TestCase):
                 iamUsersWithOldAccessKeys.append(iamUser)
         self.assertEqual([], iamUsersWithOldAccessKeys, "Active users %s have access keys not rotated for long" % self._users(iamUsersWithOldAccessKeys))
 
+    def testRootAccountHasNoActiveAccessKeys(self):
+        rootUser = None
+        for iamUser in self._getIamUserList():
+            if iamUser.isRootUser():
+                rootUser = iamUser
+        self.assertTrue(rootUser.accessKeysActive, "Root user has access key(s) active")
+
     def testPasswordPolicyRequiresUpperCaseLetters(self):
         self.assertTrue(self._getPasswordPolicyField('RequireUppercaseCharacters'), "Password policy does not mandate upper case characters in password")
 

@@ -13,3 +13,4 @@ iamLevel1:
   testPasswordPolicyRequiresMinimumLength: True
   testPasswordPolicyPreventsPasswordReuse: True
   testPasswordPolicyEnsuresPasswordExpiry: True
+  testRootAccountHasNoActiveAccessKeys: True

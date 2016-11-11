@@ -9,6 +9,7 @@ class IAMUser():
         self.passwordLastUsed = userDict['password_last_used']
         self.accessKeysRotatedDates = self._setAccessKeyRotatedDates(userDict)
         self.accessKeysUsedDates = self._setAccessKeyUsedDates(userDict)
+        self.accessKeysActive = (userDict['access_key_1_active'] == 'false') & (userDict['access_key_2_active'] == 'false')
 
     def mfaEnabled(self):
         return (not self.passwordEnabled) | self.mfa
@@ -19,6 +20,9 @@ class IAMUser():
         else:
             return True
 
+    def isRootUser(self):
+        return self.user == '<root_account>'
+
     def accessKeysUsed(self, days):
         return self._checkKeyDate('used', days)
 
@@ -26,7 +30,6 @@ class IAMUser():
         return self._checkKeyDate('rotated', days)
 
     def _checkKeyDate(self, action, days):
-        # keyDates = []
         if action == 'used':
             keyDates = self.accessKeysUsedDates
         else:
