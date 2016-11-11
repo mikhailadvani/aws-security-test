@@ -12,6 +12,9 @@ class IAM:
     def getPasswordPolicy(self):
         return self.iam.get_account_password_policy()
 
+    def getUserPolicies(self, user):
+        return self.iam.list_attached_user_policies(UserName=user)
+
     def _credentialReportDict(self, csvReport):
         credentialReportDict = []
         rows = csvReport.split('\n')

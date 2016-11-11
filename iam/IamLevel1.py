@@ -33,6 +33,14 @@ class IamLevel1(unittest.TestCase):
                 rootUser = iamUser
         self.assertTrue(rootUser.accessKeysActive, "Root user has access key(s) active")
 
+    def testPoliciesAreNotAttachedToUsers(self):
+        usersWithAttachedPolicies = []
+        for iamUser in self._getIamUserList():
+            if not iamUser.isRootUser():
+                if self._userHasAttachedPolicies(iamUser.user):
+                    usersWithAttachedPolicies.append(iamUser)
+        self.assertEqual([], usersWithAttachedPolicies, "Users %s have policies attached to them" % self._users(usersWithAttachedPolicies))
+
     def testPasswordPolicyRequiresUpperCaseLetters(self):
         self.assertTrue(self._getPasswordPolicyField('RequireUppercaseCharacters'), "Password policy does not mandate upper case characters in password")
 
@@ -74,3 +82,6 @@ class IamLevel1(unittest.TestCase):
         for iam in iamUsers:
             users.append(iam.user)
         return ",".join(users)
+
+    def _userHasAttachedPolicies(self, userName):
+        return len(IAM().getUserPolicies(userName)['AttachedPolicies'])

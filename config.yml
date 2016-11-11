@@ -14,3 +14,4 @@ iamLevel1:
   testPasswordPolicyPreventsPasswordReuse: True
   testPasswordPolicyEnsuresPasswordExpiry: True
   testRootAccountHasNoActiveAccessKeys: True
+  testPoliciesAreNotAttachedToUsers: True
