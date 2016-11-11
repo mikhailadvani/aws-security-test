@@ -26,6 +26,26 @@ class IamLevel1(unittest.TestCase):
                 iamUsersWithOldAccessKeys.append(iamUser)
         self.assertEqual([], iamUsersWithOldAccessKeys, "Active users %s have access keys not rotated for long" % self._users(iamUsersWithOldAccessKeys))
 
+    def testPasswordPolicyRequiresUpperCaseLetters(self):
+        self.assertTrue(self._getPasswordPolicyField('RequireUppercaseCharacters'), "Password policy does not mandate upper case characters in password")
+
+    def testPasswordPolicyRequiresLowerCaseLetters(self):
+        self.assertTrue(self._getPasswordPolicyField('RequireLowercaseCharacters'), "Password policy does not mandate lower case characters in password")
+
+    def testPasswordPolicyRequiresNumbers(self):
+        self.assertTrue(self._getPasswordPolicyField('RequireNumbers'), "Password policy does not mandate numbers in password")
+
+    def testPasswordPolicyRequiresSymbols(self):
+        self.assertTrue(self._getPasswordPolicyField('RequireSymbols'), "Password policy does not mandate symbols in password")
+
+    def testPasswordPolicyRequiresMinimumLength(self):
+        requirePasswordLength = 14
+        self.assertTrue(self._getPasswordPolicyField('MinimumPasswordLength') >= requirePasswordLength, "Password policy does not mandate required minimum length of password")
+
+    def _getPasswordPolicyField(self, field):
+        passwordPolicy = IAM().getPasswordPolicy()
+        return passwordPolicy['PasswordPolicy'][field]
+
     def _getIamUserList(self):
         iamUserList = []
         users = IAM().getCredentialReport()

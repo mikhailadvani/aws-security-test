@@ -6,3 +6,8 @@ iamLevel1:
   testMfaEnabledForConsoleUsers: True
   testUnusedCredentialsAreDeactivated: True
   testAccessKeysAreRotated: True
+  testPasswordPolicyRequiresUpperCaseLetters: True
+  testPasswordPolicyRequiresLowerCaseLetters: True
+  testPasswordPolicyRequiresNumbers: True
+  testPasswordPolicyRequiresSymbols: True
+  testPasswordPolicyRequiresMinimumLength: True

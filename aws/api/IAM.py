@@ -9,6 +9,9 @@ class IAM:
         credentialReportCsv = self.iam.get_credential_report()['Content']
         return self._credentialReportDict(credentialReportCsv)
 
+    def getPasswordPolicy(self):
+        return self.iam.get_account_password_policy()
+
     def _credentialReportDict(self, csvReport):
         credentialReportDict = []
         rows = csvReport.split('\n')
