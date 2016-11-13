@@ -8,7 +8,7 @@ class IamLevel1(unittest.TestCase):
         for iamUser in self._getIamUserList():
             if not iamUser.mfaEnabled():
                 iamUsersWithoutMfa.append(iamUser)
-        self.assertEqual([], iamUsersWithoutMfa, "Users %s have console passwords without MFA" % self._users(iamUsersWithoutMfa))
+        self.assertEqual([], iamUsersWithoutMfa, "User(s) with console passwords without MFA: %s" % self._users(iamUsersWithoutMfa))
 
     def testUnusedCredentialsAreDeactivated(self):
         oldUserTimePeriod = 90
@@ -16,7 +16,7 @@ class IamLevel1(unittest.TestCase):
         for iamUser in self._getIamUserList():
             if ((not iamUser.credentialsUsed(oldUserTimePeriod)) | (not iamUser.accessKeysUsed(oldUserTimePeriod))):
                 iamUsersWithUnusedCredentials.append(iamUser)
-        self.assertEqual([], iamUsersWithUnusedCredentials, "Active users %s have passwords/access keys unused for long" % self._users(iamUsersWithUnusedCredentials))
+        self.assertEqual([], iamUsersWithUnusedCredentials, "Active user(s) with passwords/access keys unused for long: %s" % self._users(iamUsersWithUnusedCredentials))
 
     def testAccessKeysAreRotated(self):
         oldAccessKeyTimePeriodInDays = 90
@@ -24,7 +24,7 @@ class IamLevel1(unittest.TestCase):
         for iamUser in self._getIamUserList():
             if not iamUser.accessKeysRotated(oldAccessKeyTimePeriodInDays):
                 iamUsersWithOldAccessKeys.append(iamUser)
-        self.assertEqual([], iamUsersWithOldAccessKeys, "Active users %s have access keys not rotated for long" % self._users(iamUsersWithOldAccessKeys))
+        self.assertEqual([], iamUsersWithOldAccessKeys, "Active user(s) with access keys not rotated for long: %s" % self._users(iamUsersWithOldAccessKeys))
 
     def testRootAccountHasNoActiveAccessKeys(self):
         rootUser = None
@@ -39,7 +39,7 @@ class IamLevel1(unittest.TestCase):
             if not iamUser.isRootUser():
                 if self._userHasAttachedPolicies(iamUser.user):
                     usersWithAttachedPolicies.append(iamUser)
-        self.assertEqual([], usersWithAttachedPolicies, "Users %s have policies attached to them" % self._users(usersWithAttachedPolicies))
+        self.assertEqual([], usersWithAttachedPolicies, "User(s) with policies attached to them: %s" % self._users(usersWithAttachedPolicies))
 
     def testPasswordPolicyRequiresUpperCaseLetters(self):
         self.assertTrue(self._getPasswordPolicyField('RequireUppercaseCharacters'), "Password policy does not mandate upper case characters in password")
