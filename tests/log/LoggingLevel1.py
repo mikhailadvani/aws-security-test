@@ -9,6 +9,14 @@ class LoggingLevel1(unittest.TestCase):
             trailEnabledForAllRegions = trailEnabledForAllRegions | trail.isMultiRegionTrail
         self.assertEqual(trailEnabledForAllRegions, True, "No multi-region trail defined")
 
+    def testCloudTrialsLogsAreIntegratedWithCloudWatch(self):
+        trailsNotIntegratedWithCloudWatch = []
+        cloudWatchNotUpdatedThreshold = 1
+        for trail in self._getTrails():
+            if not trail.cloudWatchUpdated(cloudWatchNotUpdatedThreshold):
+                trailsNotIntegratedWithCloudWatch.append(trail)
+        self.assertEqual([], trailsNotIntegratedWithCloudWatch, "Trail(s) without cloudwatch integration %s" % self._trails(trailsNotIntegratedWithCloudWatch))
+
     def testCloudTrailValidationIsEnabled(self):
         trailsWithValidationDisabled = []
         for trail in self._getTrails():
