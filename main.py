@@ -1,9 +1,9 @@
+import argparse
+import boto3
 import unittest
 import yaml
-import boto3
-import argparse
-from networking import NetworkingLevel1
-from iam import IamLevel1
+from tests.iam import IamLevel1
+from tests.networking import NetworkingLevel1
 
 suite = unittest.TestSuite()
 
