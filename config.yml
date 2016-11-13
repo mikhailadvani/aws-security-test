@@ -18,4 +18,4 @@ iamLevel1:
 
 loggingLevel1:
   testCloudtrailEnabledForAllRegions: True
-  testCloudTrailValidationIsEnabled: True
+  testCloudTrailValidationIsEnabled: False
