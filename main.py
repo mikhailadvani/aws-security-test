@@ -4,6 +4,7 @@ import unittest
 import yaml
 from tests.iam import IamLevel1
 from tests.networking import NetworkingLevel1
+from tests.log import LoggingLevel1
 
 suite = unittest.TestSuite()
 
@@ -23,6 +24,10 @@ for test, enabled in testConfig['networkingLevel1'].iteritems():
 for test, enabled in testConfig['iamLevel1'].iteritems():
     if enabled:
         suite.addTest(IamLevel1(test))
+
+for test, enabled in testConfig['loggingLevel1'].iteritems():
+    if enabled:
+        suite.addTest(LoggingLevel1(test))
 
 runner = unittest.TextTestRunner()
 testExecution = runner.run(suite)

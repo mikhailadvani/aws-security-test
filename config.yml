@@ -15,3 +15,6 @@ iamLevel1:
   testPasswordPolicyEnsuresPasswordExpiry: True
   testRootAccountHasNoActiveAccessKeys: True
   testPoliciesAreNotAttachedToUsers: True
+
+loggingLevel1:
+  testCloudtrailEnabledForAllRegions: True

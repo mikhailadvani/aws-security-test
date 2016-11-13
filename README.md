@@ -12,6 +12,7 @@ Access needed by the users' API keys configured:
 
 - AmazonEC2ReadOnlyAccess
 - IAMReadOnlyAccess
+- AWSCloudTrailReadOnlyAccess
 
 ##### Tests to run
 
