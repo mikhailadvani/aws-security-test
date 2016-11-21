@@ -36,4 +36,4 @@
       - "awscli"
       - "boto3"
 
-    - service: name=ntpd state=started
+    - service: name=ntpd state=started enabled=yes
