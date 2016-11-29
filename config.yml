@@ -1,8 +1,8 @@
-networkingLevel1:
+NetworkingLevel1:
   testSshNotOpenFromInternet: True
   testRdpNotOpenFromInternet: True
 
-iamLevel1:
+IamLevel1:
   testMfaEnabledForConsoleUsers: True
   testUnusedCredentialsAreDeactivated: True
   testAccessKeysAreRotated: True
@@ -16,7 +16,7 @@ iamLevel1:
   testRootAccountHasNoActiveAccessKeys: True
   testPoliciesAreNotAttachedToUsers: True
 
-loggingLevel1:
+LoggingLevel1:
   testCloudtrailEnabledForAllRegions: True
   testCloudTrailValidationIsEnabled: False
   testCloudTrialsLogsAreIntegratedWithCloudWatch: True

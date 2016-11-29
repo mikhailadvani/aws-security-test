@@ -17,17 +17,11 @@ if args.profile :
     boto3.setup_default_session(profile_name=args.profile)
 
 testConfig = yaml.load(open(args.config, 'r'))
-for test, enabled in testConfig['networkingLevel1'].iteritems():
-    if enabled:
-        suite.addTest(NetworkingLevel1(test))
 
-for test, enabled in testConfig['iamLevel1'].iteritems():
-    if enabled:
-        suite.addTest(IamLevel1(test))
-
-for test, enabled in testConfig['loggingLevel1'].iteritems():
-    if enabled:
-        suite.addTest(LoggingLevel1(test))
+for testCategory, tests in testConfig.iteritems():
+    for test, enabled in tests.iteritems():
+        if enabled:
+            suite.addTest(eval(testCategory)(test))
 
 runner = unittest.TextTestRunner()
 testExecution = runner.run(suite)
