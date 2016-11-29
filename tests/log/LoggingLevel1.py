@@ -12,14 +12,6 @@ class LoggingLevel1(unittest.TestCase):
             trailEnabledForAllRegions = trailEnabledForAllRegions | trail.isMultiRegionTrail
         self.assertEqual(trailEnabledForAllRegions, True, "No multi-region trail defined. Recommendation: 2.1")
 
-    def testCloudTrialsLogsAreIntegratedWithCloudWatch(self):
-        trailsNotIntegratedWithCloudWatch = []
-        cloudWatchNotUpdatedThreshold = 1
-        for trail in self._getTrails():
-            if not trail.cloudWatchUpdated(cloudWatchNotUpdatedThreshold):
-                trailsNotIntegratedWithCloudWatch.append(trail)
-        self.assertEqual([], trailsNotIntegratedWithCloudWatch, "Trail(s) without cloudwatch integration %s. Recommendation: 2.4" % self._trails(trailsNotIntegratedWithCloudWatch))
-
     def testCloudTrailValidationIsEnabled(self):
         trailsWithValidationDisabled = []
         for trail in self._getTrails():
@@ -36,6 +28,14 @@ class LoggingLevel1(unittest.TestCase):
             if (bucketAcl.allUsersHavePrivileges() | bucketAcl.allAuthenticatedUsersHavePrivileges() | bucketPolicy.allowsAccessForAllPrincipals()):
                 trailsWithPublicS3Buckets.append(trail)
         self.assertEqual([], trailsWithPublicS3Buckets, "Trail(s) with publicly accessible S3 buckets: %s. Recommendation: 2.3" % self._trails(trailsWithPublicS3Buckets))
+
+    def testCloudTrialsLogsAreIntegratedWithCloudWatch(self):
+        trailsNotIntegratedWithCloudWatch = []
+        cloudWatchNotUpdatedThreshold = 1
+        for trail in self._getTrails():
+            if not trail.cloudWatchUpdated(cloudWatchNotUpdatedThreshold):
+                trailsNotIntegratedWithCloudWatch.append(trail)
+        self.assertEqual([], trailsNotIntegratedWithCloudWatch, "Trail(s) without cloudwatch integration %s. Recommendation: 2.4" % self._trails(trailsNotIntegratedWithCloudWatch))
 
     def _getTrails(self):
         trails = []

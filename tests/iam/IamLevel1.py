@@ -26,6 +26,30 @@ class IamLevel1(unittest.TestCase):
                 iamUsersWithOldAccessKeys.append(iamUser)
         self.assertEqual([], iamUsersWithOldAccessKeys, "Active user(s) with access keys not rotated for long: %s. Recommendation: 1.4" % self._users(iamUsersWithOldAccessKeys))
 
+    def testPasswordPolicyRequiresUpperCaseLetters(self):
+        self.assertTrue(self._getPasswordPolicyField('RequireUppercaseCharacters'), "Password policy does not mandate upper case characters in password. Recommendation: 1.5")
+
+    def testPasswordPolicyRequiresLowerCaseLetters(self):
+        self.assertTrue(self._getPasswordPolicyField('RequireLowercaseCharacters'), "Password policy does not mandate lower case characters in password. Recommendation: 1.6")
+
+    def testPasswordPolicyRequiresSymbols(self):
+        self.assertTrue(self._getPasswordPolicyField('RequireSymbols'), "Password policy does not mandate symbols in password. Recommendation: 1.7")
+
+    def testPasswordPolicyRequiresNumbers(self):
+        self.assertTrue(self._getPasswordPolicyField('RequireNumbers'), "Password policy does not mandate numbers in password. Recommendation: 1.8")
+
+    def testPasswordPolicyRequiresMinimumLength(self):
+        requirePasswordLength = 14
+        self.assertTrue(self._getPasswordPolicyField('MinimumPasswordLength') >= requirePasswordLength, "Password policy does not mandate required minimum length of password. Recommendation: 1.9")
+
+    def testPasswordPolicyPreventsPasswordReuse(self):
+        requiredPasswordsToRemember = 24
+        self.assertTrue(self._getPasswordPolicyField('PasswordReusePrevention', 0) >= requiredPasswordsToRemember, "Password policy does not mandate minimum password re-use prevention. Recommendation: 1.10")
+
+    def testPasswordPolicyEnsuresPasswordExpiry(self):
+        requiredPasswordExpirationPeriod = 90
+        self.assertTrue(self._getPasswordPolicyField('MaxPasswordAge', 1000) <= requiredPasswordExpirationPeriod, "Password policy does not mandate minimum password expiry time. Recommendation: 1.11")
+
     def testRootAccountHasNoActiveAccessKeys(self):
         rootUser = None
         for iamUser in self._getIamUserList():
@@ -40,30 +64,6 @@ class IamLevel1(unittest.TestCase):
                 if self._userHasAttachedPolicies(iamUser.user):
                     usersWithAttachedPolicies.append(iamUser)
         self.assertEqual([], usersWithAttachedPolicies, "User(s) with policies attached to them: %s. Recommendation: 1.15" % self._users(usersWithAttachedPolicies))
-
-    def testPasswordPolicyRequiresUpperCaseLetters(self):
-        self.assertTrue(self._getPasswordPolicyField('RequireUppercaseCharacters'), "Password policy does not mandate upper case characters in password. Recommendation: 1.5")
-
-    def testPasswordPolicyRequiresLowerCaseLetters(self):
-        self.assertTrue(self._getPasswordPolicyField('RequireLowercaseCharacters'), "Password policy does not mandate lower case characters in password. Recommendation: 1.6")
-
-    def testPasswordPolicyRequiresNumbers(self):
-        self.assertTrue(self._getPasswordPolicyField('RequireNumbers'), "Password policy does not mandate numbers in password. Recommendation: 1.8")
-
-    def testPasswordPolicyRequiresSymbols(self):
-        self.assertTrue(self._getPasswordPolicyField('RequireSymbols'), "Password policy does not mandate symbols in password. Recommendation: 1.7")
-
-    def testPasswordPolicyRequiresMinimumLength(self):
-        requirePasswordLength = 14
-        self.assertTrue(self._getPasswordPolicyField('MinimumPasswordLength') >= requirePasswordLength, "Password policy does not mandate required minimum length of password. Recommendation: 1.9")
-
-    def testPasswordPolicyPreventsPasswordReuse(self):
-        requiredPasswordsToRemember = 24
-        self.assertTrue(self._getPasswordPolicyField('PasswordReusePrevention', 0) >= requiredPasswordsToRemember, "Password policy does not mandate minimum password re-use prevention. Recommendation: 1.10")
-
-    def testPasswordPolicyEnsuresPasswordExpiry(self):
-        requiredPasswordExpirationPeriod = 90
-        self.assertTrue(self._getPasswordPolicyField('MaxPasswordAge', 1000) <= requiredPasswordExpirationPeriod, "Password policy does not mandate minimum password expiry time. Recommendation: 1.11")
 
     def _getPasswordPolicyField(self, field, default=False):
         passwordPolicy = IAM().getPasswordPolicy()
