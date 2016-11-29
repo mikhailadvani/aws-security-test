@@ -20,3 +20,4 @@ LoggingLevel1:
   testCloudtrailEnabledForAllRegions: True
   testCloudTrailValidationIsEnabled: False
   testCloudTrialsLogsAreIntegratedWithCloudWatch: True
+  testCloudTrailLogsS3BucketIsNotPublic: True

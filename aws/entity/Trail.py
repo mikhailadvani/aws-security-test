@@ -6,6 +6,7 @@ class Trail():
         self.isMultiRegionTrail = cloudTrailDict['IsMultiRegionTrail']
         self.logFileValidationEnabled = cloudTrailDict['LogFileValidationEnabled']
         self.name = cloudTrailDict['Name']
+        self.s3bucket = cloudTrailDict['S3BucketName']
 
     def cloudWatchUpdated(self, hours):
         lastUpdated = str(CloudTrail().getTrailStatus(self.name)['LatestDeliveryTime'])
