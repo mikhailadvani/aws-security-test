@@ -3,6 +3,7 @@ from aws.api import CloudTrail
 from aws.entity import Trail
 from aws.api import S3
 from aws.entity import S3BucketAcl
+from aws.entity import S3BucketPolicy
 
 class LoggingLevel1(unittest.TestCase):
     def testCloudtrailEnabledForAllRegions(self):
@@ -31,9 +32,10 @@ class LoggingLevel1(unittest.TestCase):
         for trail in self._getTrails():
             bucketName = trail.s3bucket
             bucketAcl = S3BucketAcl(S3().getBucketAcl(bucketName))
-            if bucketAcl.allUsersHavePrivileges() | bucketAcl.allAuthenticatedUsersHavePrivileges():
+            bucketPolicy = S3BucketPolicy(S3().getBucketPolicy(bucketName))
+            if (bucketAcl.allUsersHavePrivileges() | bucketAcl.allAuthenticatedUsersHavePrivileges() | bucketPolicy.allowsAccessForAllPrincipals()):
                 trailsWithPublicS3Buckets.append(trail)
-        self.assertEqual([], trailsWithPublicS3Buckets, "Trail(s) with publicly accessible S3 buckets: %s. Recommendation: 2.3 ")
+        self.assertEqual([], trailsWithPublicS3Buckets, "Trail(s) with publicly accessible S3 buckets: %s. Recommendation: 2.3" % self._trails(trailsWithPublicS3Buckets))
 
     def _getTrails(self):
         trails = []
