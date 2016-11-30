@@ -5,6 +5,7 @@ import yaml
 from tests.iam import IamLevel1
 from tests.networking import NetworkingLevel1
 from tests.log import LoggingLevel1
+from tests.monitoring import MonitoringLevel1
 
 suite = unittest.TestSuite()
 

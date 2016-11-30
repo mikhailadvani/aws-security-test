@@ -22,3 +22,6 @@ LoggingLevel1:
   testCloudTrialsLogsAreIntegratedWithCloudWatch: True
   testCloudTrailLogsS3BucketIsNotPublic: True
   testCloudTrailLogsS3BucketHasAccessLoggingEnabled: True
+
+MonitoringLevel1:
+  testMetricFilterAndAlarmExistForUnauthorizedApiCalls: True

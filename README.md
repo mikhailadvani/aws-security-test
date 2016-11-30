@@ -14,6 +14,9 @@ Access needed by the users' API keys configured:
 - IAMReadOnlyAccess
 - AWSCloudTrailReadOnlyAccess
 - AmazonS3ReadOnlyAccess
+- CloudWatchLogsReadOnlyAccess
+- CloudWatchReadOnlyAccess
+- AmazonSNSReadOnlyAccess
 
 ##### Tests to run
 

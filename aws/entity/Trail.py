@@ -1,4 +1,5 @@
 import datetime
+import re
 from aws.api import CloudTrail
 
 class Trail():
@@ -7,6 +8,12 @@ class Trail():
         self.logFileValidationEnabled = cloudTrailDict['LogFileValidationEnabled']
         self.name = cloudTrailDict['Name']
         self.s3bucket = cloudTrailDict['S3BucketName']
+        if 'CloudWatchLogsLogGroupArn' in cloudTrailDict:
+            self.cloudwatchLogsIntegrated = True
+            self.cloudWatchLogGroup = re.search(':log-group:(.+?):\*', cloudTrailDict['CloudWatchLogsLogGroupArn']).group(1)
+        else:
+            self.cloudwatchLogsIntegrated = False
+            self.cloudWatchLogGroup = None
 
     def cloudWatchUpdated(self, hours):
         lastUpdated = str(CloudTrail().getTrailStatus(self.name)['LatestDeliveryTime'])
