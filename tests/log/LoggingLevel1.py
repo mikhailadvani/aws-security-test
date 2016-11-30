@@ -44,7 +44,7 @@ class LoggingLevel1(unittest.TestCase):
             bucketName = trail.s3bucket
             if not S3BucketLogging(S3().getBucketLogging(bucketName)).loggingEnabled:
                 trailsWithPublicS3BucketsWithoutLogging.append(trail)
-        self.assertEqual([], trailsWithPublicS3BucketsWithoutLogging, "Trail(s) with publicly accessible S3 buckets: %s. Recommendation: 2.6" % self._trails(trailsWithPublicS3BucketsWithoutLogging))
+        self.assertEqual([], trailsWithPublicS3BucketsWithoutLogging, "Trail(s) with S3 buckets without access logging enabled: %s. Recommendation: 2.6" % self._trails(trailsWithPublicS3BucketsWithoutLogging))
 
     def _getTrails(self):
         trails = []
