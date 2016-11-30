@@ -4,6 +4,7 @@ from aws.entity import Trail
 from aws.api import S3
 from aws.entity import S3BucketAcl
 from aws.entity import S3BucketPolicy
+from aws.entity import S3BucketLogging
 
 class LoggingLevel1(unittest.TestCase):
     def testCloudtrailEnabledForAllRegions(self):
@@ -36,6 +37,14 @@ class LoggingLevel1(unittest.TestCase):
             if not trail.cloudWatchUpdated(cloudWatchNotUpdatedThreshold):
                 trailsNotIntegratedWithCloudWatch.append(trail)
         self.assertEqual([], trailsNotIntegratedWithCloudWatch, "Trail(s) without cloudwatch integration %s. Recommendation: 2.4" % self._trails(trailsNotIntegratedWithCloudWatch))
+
+    def testCloudTrailLogsS3BucketHasAccessLoggingEnabled(self):
+        trailsWithPublicS3BucketsWithoutLogging = []
+        for trail in self._getTrails():
+            bucketName = trail.s3bucket
+            if not S3BucketLogging(S3().getBucketLogging(bucketName)).loggingEnabled:
+                trailsWithPublicS3BucketsWithoutLogging.append(trail)
+        self.assertEqual([], trailsWithPublicS3BucketsWithoutLogging, "Trail(s) with publicly accessible S3 buckets: %s. Recommendation: 2.6" % self._trails(trailsWithPublicS3BucketsWithoutLogging))
 
     def _getTrails(self):
         trails = []

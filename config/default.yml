@@ -21,3 +21,4 @@ LoggingLevel1:
   testCloudTrailValidationIsEnabled: False
   testCloudTrialsLogsAreIntegratedWithCloudWatch: True
   testCloudTrailLogsS3BucketIsNotPublic: True
+  testCloudTrailLogsS3BucketHasAccessLoggingEnabled: True
