@@ -8,12 +8,12 @@ class LogMetricFilterSet():
 
     def unauthorizedOperationFilterAlarmOrSubscriberNotDefined(self):
         unauthorizedOperationFilters = self._unauthorizedOperationFilters()
-        unauthorizedOperationAlarmDefined = self._alarmsWithSubscribers(unauthorizedOperationFilters) != 0
+        unauthorizedOperationAlarmDefined = self._alarmsWithSubscribers(unauthorizedOperationFilters)
         return (unauthorizedOperationFilters == []) | (not unauthorizedOperationAlarmDefined)
 
     def accessDeniedFilterAlarmOrSubscriberNotDefined(self):
         accessDeniedFilters = self._accessDeniedFilters()
-        accessDeniedAlarmDefined = self._alarmsWithSubscribers(accessDeniedFilters) != 0
+        accessDeniedAlarmDefined = self._alarmsWithSubscribers(accessDeniedFilters)
         return (accessDeniedFilters == []) | (not accessDeniedAlarmDefined)
 
     def _unauthorizedOperationFilters(self):
