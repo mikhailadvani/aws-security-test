@@ -18,6 +18,20 @@ class LogMetricFilter:
     def isLoginWithoutMfaFilter(self):
         return self._checkFilterIs('\s*{\s*\$.userIdentity.sessionContext.attributes.mfaAuthenticated\s*!=\s*\"true\"\s*}\s*')
 
+    def isRootLoginFilter(self):
+        isFilter = False
+        isRootLogin = '\s*\$.userIdentity.type\s*=\s*\"Root\"\s*'
+        invokedByNotExists = '\s*\$.userIdentity.invokedBy\s+NOT\s+EXISTS\s+'
+        eventTypeNotServiceEvent = '\s*\$.eventType\s*!=\s*\"AwsServiceEvent\"\s*'
+        appendString = '&&'
+        isFilter = isFilter | self._checkFilterIs(isRootLogin + appendString + invokedByNotExists + appendString + eventTypeNotServiceEvent)
+        isFilter = isFilter | self._checkFilterIs(isRootLogin + appendString + eventTypeNotServiceEvent + appendString + invokedByNotExists)
+        isFilter = isFilter | self._checkFilterIs(invokedByNotExists + appendString + isRootLogin + appendString + eventTypeNotServiceEvent)
+        isFilter = isFilter | self._checkFilterIs(invokedByNotExists + appendString + eventTypeNotServiceEvent + appendString + isRootLogin)
+        isFilter = isFilter | self._checkFilterIs(eventTypeNotServiceEvent + appendString + isRootLogin + appendString + invokedByNotExists)
+        isFilter = isFilter | self._checkFilterIs(eventTypeNotServiceEvent + appendString + invokedByNotExists + appendString + isRootLogin)
+        return isFilter
+
     def fetchAlarmsWithSubscribers(self):
         metricAlarms = []
         for metricTransformation in self.metricTransformations:

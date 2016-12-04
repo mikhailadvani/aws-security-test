@@ -32,6 +32,19 @@ class MonitoringLevel1(unittest.TestCase):
                     trailsWithoutAlarmsForLoginWithoutMfa.append(trail)
         self.assertEqual([], trailsWithoutAlarmsForLoginWithoutMfa, 'Trail(s) without alarms for web console login without MFA: %s. Recommendation: 3.2' % self._trails(trailsWithoutAlarmsForLoginWithoutMfa))
 
+    def testMetricFilterAndAlarmExistForRootLogin(self):
+        trailsWithoutAlarmsForRootLogin = []
+        trails = self._getTrails()
+        self.assertNotEqual([], trails, "No trails defined. Recommendation: 3.3")
+        for trail in trails:
+            if trail.cloudWatchLogGroup is None:
+                trailsWithoutAlarmsForRootLogin.append(trail)
+            else:
+                metricFilters = LogMetricFilterSet(CloudWatchLogs().getMetricFilters(trail.cloudWatchLogGroup)['metricFilters'])
+                if metricFilters.rootLoginFilterAlarmOrSubscriberNotDefined():
+                    trailsWithoutAlarmsForRootLogin.append(trail)
+        self.assertEqual([], trailsWithoutAlarmsForRootLogin, 'Trail(s) without alarms for root login: %s. Recommendation: 3.3' % self._trails(trailsWithoutAlarmsForRootLogin))
+
     def _getTrails(self):
         trails = []
         for cloudTrail in CloudTrail().getTrails()['trailList']:

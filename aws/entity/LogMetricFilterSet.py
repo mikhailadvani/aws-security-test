@@ -21,6 +21,11 @@ class LogMetricFilterSet():
         loginWithoutMfaAlarmDefined = self._alarmsWithSubscribers(loginWithoutMfaFilters)
         return (loginWithoutMfaFilters == []) | (not loginWithoutMfaAlarmDefined)
 
+    def rootLoginFilterAlarmOrSubscriberNotDefined(self):
+        rootLoginFilters = self._rootLoginFilters()
+        rootLoginAlarmDefined = self._alarmsWithSubscribers(rootLoginFilters)
+        return (rootLoginFilters == []) | (not rootLoginAlarmDefined)
+
     def _unauthorizedOperationFilters(self):
         filters = []
         for filter in self.filters:
@@ -39,6 +44,13 @@ class LogMetricFilterSet():
         filters = []
         for filter in self.filters:
             if filter.isLoginWithoutMfaFilter():
+                filters.append(filter)
+        return filters
+
+    def _rootLoginFilters(self):
+        filters = []
+        for filter in self.filters:
+            if filter.isRootLoginFilter():
                 filters.append(filter)
         return filters
 
