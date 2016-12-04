@@ -1,21 +1,22 @@
 import aws.entity.MetricAlarm
 import aws.api.SNS
 import aws.api.CloudWatch
+import re
 
 class LogMetricFilter:
     def __init__(self, logMetricFilterDict):
         self.name = logMetricFilterDict['filterName']
-        self.filterPattern = logMetricFilterDict['filterPattern'].replace(' ', '')
+        self.filterPattern = logMetricFilterDict['filterPattern']
         self.metricTransformations = logMetricFilterDict['metricTransformations']
 
     def isUnauthorizedOperationFilter(self):
-        return self._checkFilterIs('$.errorCode="*UnauthorizedOperation"')
+        return self._checkFilterIs('\s*({?)\s*(\(?)\$.errorCode\s*=\s*\"\*UnauthorizedOperation\"\s*(\)?)\s*(}?)\s*')
 
     def isAccessDeniedFilter(self):
-        return self._checkFilterIs('$.errorCode="AccessDenied*')
+        return self._checkFilterIs('\s*({?)\s*(\(?)\$.errorCode\s*=\s*\"AccessDenied\*\"\s*(\)?)\s*(}?)\s*')
 
     def isLoginWithoutMfaFilter(self):
-        return self._checkFilterIs('$.userIdentity.sessionContext.attributes.mfaAuthenticated!="true"')
+        return self._checkFilterIs('\s*{\s*\$.userIdentity.sessionContext.attributes.mfaAuthenticated\s*!=\s*\"true\"\s*}\s*')
 
     def fetchAlarmsWithSubscribers(self):
         metricAlarms = []
@@ -31,8 +32,9 @@ class LogMetricFilter:
                     if subscriptions != []:
                         self.alarms.append(aws.entity.MetricAlarm(metricAlarmDict))
 
-    def _checkFilterIs(self, filterString):
-        if filterString in self.filterPattern:
+    def _checkFilterIs(self, filterRegex):
+        occurences = re.findall(filterRegex, self.filterPattern)
+        if occurences != []:
             return True
         else:
             return False
