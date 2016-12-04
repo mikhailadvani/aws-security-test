@@ -25,3 +25,4 @@ LoggingLevel1:
 
 MonitoringLevel1:
   testMetricFilterAndAlarmExistForUnauthorizedApiCalls: True
+  testMetricFilterAndAlarmExistForLoginWithoutMfa: True

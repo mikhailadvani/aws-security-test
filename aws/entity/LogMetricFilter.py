@@ -14,7 +14,7 @@ class LogMetricFilter:
     def isAccessDeniedFilter(self):
         return self._checkFilterIs('$.errorCode="AccessDenied*')
 
-    def loginWithoutMfaFilterDefined(self):
+    def isLoginWithoutMfaFilter(self):
         return self._checkFilterIs('$.userIdentity.sessionContext.attributes.mfaAuthenticated!="true"')
 
     def fetchAlarmsWithSubscribers(self):
