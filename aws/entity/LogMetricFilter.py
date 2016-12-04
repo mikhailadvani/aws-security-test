@@ -2,6 +2,7 @@ import aws.entity.MetricAlarm
 import aws.api.SNS
 import aws.api.CloudWatch
 import re
+import itertools
 
 class LogMetricFilter:
     def __init__(self, logMetricFilterDict):
@@ -20,16 +21,11 @@ class LogMetricFilter:
 
     def isRootLoginFilter(self):
         isFilter = False
-        isRootLogin = '\s*\$.userIdentity.type\s*=\s*\"Root\"\s*'
-        invokedByNotExists = '\s*\$.userIdentity.invokedBy\s+NOT\s+EXISTS\s+'
-        eventTypeNotServiceEvent = '\s*\$.eventType\s*!=\s*\"AwsServiceEvent\"\s*'
+        regexes = ['\s*\$.userIdentity.type\s*=\s*\"Root\"\s*', '\s*\$.userIdentity.invokedBy\s+NOT\s+EXISTS\s+', '\s*\$.eventType\s*!=\s*\"AwsServiceEvent\"\s*']
         appendString = '&&'
-        isFilter = isFilter | self._checkFilterIs(isRootLogin + appendString + invokedByNotExists + appendString + eventTypeNotServiceEvent)
-        isFilter = isFilter | self._checkFilterIs(isRootLogin + appendString + eventTypeNotServiceEvent + appendString + invokedByNotExists)
-        isFilter = isFilter | self._checkFilterIs(invokedByNotExists + appendString + isRootLogin + appendString + eventTypeNotServiceEvent)
-        isFilter = isFilter | self._checkFilterIs(invokedByNotExists + appendString + eventTypeNotServiceEvent + appendString + isRootLogin)
-        isFilter = isFilter | self._checkFilterIs(eventTypeNotServiceEvent + appendString + isRootLogin + appendString + invokedByNotExists)
-        isFilter = isFilter | self._checkFilterIs(eventTypeNotServiceEvent + appendString + invokedByNotExists + appendString + isRootLogin)
+        filterStringCombinations = list(itertools.permutations(regexes))
+        for filterStringCombination in filterStringCombinations:
+            isFilter = isFilter | self._checkFilterIs(appendString.join(filterStringCombination))
         return isFilter
 
     def fetchAlarmsWithSubscribers(self):
