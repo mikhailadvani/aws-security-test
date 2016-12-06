@@ -30,3 +30,4 @@ MonitoringLevel1:
   testMetricFilterAndAlarmExistForIamPolicyChanges: True
   testMetricFilterAndAlarmExistForCloudtrailConfigChanges: True
   testMetricFilterAndAlarmExistForNetworkGatewayChanges: True
+  testMetricFilterAndAlarmExistForRouteTableChanges: True

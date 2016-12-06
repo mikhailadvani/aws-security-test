@@ -82,7 +82,20 @@ class MonitoringLevel1(unittest.TestCase):
                 metricFilters = LogMetricFilterSet(CloudWatchLogs().getMetricFilters(trail.cloudWatchLogGroup)['metricFilters'])
                 if metricFilters.networkGatewayChangeFilterAlarmOrSubscriberNotDefined():
                     trailsWithoutAlarmsForNetworkGatewayChanges.append(trail)
-        self.assertEqual([], trailsWithoutAlarmsForNetworkGatewayChanges, 'Trail(s) without alarms for network gateway changes: %s. Recommendation: 3.12' % self._trails(trailsWithoutAlarmsForNetworkGatewayChanges))
+        self.assertEqual([], trailsWithoutAlarmsForNetworkGatewayChanges, 'Trail(s) without alarms for network gateway changes: %s. Recommendation: 3.13' % self._trails(trailsWithoutAlarmsForNetworkGatewayChanges))
+
+    def testMetricFilterAndAlarmExistForRouteTableChanges(self):
+        trailsWithoutAlarmsForRouteTableChanges = []
+        trails = self._getTrails()
+        self.assertNotEqual([], trails, "No trails defined. Recommendation: 3.13")
+        for trail in trails:
+            if trail.cloudWatchLogGroup is None:
+                trailsWithoutAlarmsForRouteTableChanges.append(trail)
+            else:
+                metricFilters = LogMetricFilterSet(CloudWatchLogs().getMetricFilters(trail.cloudWatchLogGroup)['metricFilters'])
+                if metricFilters.routeTableChangeFilterAlarmOrSubscriberNotDefined():
+                    trailsWithoutAlarmsForRouteTableChanges.append(trail)
+        self.assertEqual([], trailsWithoutAlarmsForRouteTableChanges, 'Trail(s) without alarms for route table changes: %s. Recommendation: 3.13' % self._trails(trailsWithoutAlarmsForRouteTableChanges))
 
     def _getTrails(self):
         trails = []

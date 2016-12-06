@@ -55,6 +55,16 @@ class LogMetricFilterSet():
             networkGatewayChangeFiltersAlarmOrSubscriberNotDefined = (networkGatewayChangeFilters == []) | (not networkGatewayChangeAlarmDefined)
         return networkGatewayChangeFiltersAlarmOrSubscriberNotDefined
 
+    def routeTableChangeFilterAlarmOrSubscriberNotDefined(self):
+        routeTableChangeEvents = ['CreateRoute', 'CreateRouteTable', 'ReplaceRoute', 'ReplaceRouteTableAssociation', 'DeleteRouteTable',
+                                  'DeleteRoute', 'DisassociateRouteTable']
+        routeTableChangeFiltersAlarmOrSubscriberNotDefined = False
+        for routeTableChangeEvent in routeTableChangeEvents:
+            routeTableChangeFilters = self._eventSpecificChangeFilters(routeTableChangeEvent)
+            routeTableChangeAlarmDefined = self._alarmsWithSubscribers(routeTableChangeFilters)
+            routeTableChangeFiltersAlarmOrSubscriberNotDefined = (routeTableChangeFilters == []) | (not routeTableChangeAlarmDefined)
+        return routeTableChangeFiltersAlarmOrSubscriberNotDefined
+
     def _unauthorizedOperationFilters(self):
         filters = []
         for filter in self.filters:
