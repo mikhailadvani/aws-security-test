@@ -45,6 +45,19 @@ class MonitoringLevel1(unittest.TestCase):
                     trailsWithoutAlarmsForRootLogin.append(trail)
         self.assertEqual([], trailsWithoutAlarmsForRootLogin, 'Trail(s) without alarms for root login: %s. Recommendation: 3.3' % self._trails(trailsWithoutAlarmsForRootLogin))
 
+    def testMetricFilterAndAlarmExistForIamPolicyChanges(self):
+        trailsWithoutAlarmsForIamPolicyChanges = []
+        trails = self._getTrails()
+        self.assertNotEqual([], trails, "No trails defined. Recommendation: 3.4")
+        for trail in trails:
+            if trail.cloudWatchLogGroup is None:
+                trailsWithoutAlarmsForIamPolicyChanges.append(trail)
+            else:
+                metricFilters = LogMetricFilterSet(CloudWatchLogs().getMetricFilters(trail.cloudWatchLogGroup)['metricFilters'])
+                if metricFilters.iamPolicyChangeFilterAlarmOrSubscriberNotDefined():
+                    trailsWithoutAlarmsForIamPolicyChanges.append(trail)
+        self.assertEqual([], trailsWithoutAlarmsForIamPolicyChanges, 'Trail(s) without alarms for IAM policy chnages: %s. Recommendation: 3.4' % self._trails(trailsWithoutAlarmsForIamPolicyChanges))
+
     def _getTrails(self):
         trails = []
         for cloudTrail in CloudTrail().getTrails()['trailList']:

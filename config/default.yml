@@ -27,3 +27,4 @@ MonitoringLevel1:
   testMetricFilterAndAlarmExistForUnauthorizedApiCalls: True
   testMetricFilterAndAlarmExistForLoginWithoutMfa: True
   testMetricFilterAndAlarmExistForRootLogin: True
+  testMetricFilterAndAlarmExistForIamPolicyChanges: True

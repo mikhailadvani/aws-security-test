@@ -28,6 +28,10 @@ class LogMetricFilter:
             isFilter = isFilter | self._checkFilterIs(appendString.join(filterStringCombination))
         return isFilter
 
+    def isIamPolicyChangeFilter(self, policyChangeEvent):
+        regex = '(\(?)\s*\$.eventName\s*=\s*%s\s*(\)?)'
+        return self._checkFilterIs(regex % policyChangeEvent)
+
     def fetchAlarmsWithSubscribers(self):
         metricAlarms = []
         for metricTransformation in self.metricTransformations:

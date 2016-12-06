@@ -25,6 +25,17 @@ class LogMetricFilterSet():
         rootLoginAlarmDefined = self._alarmsWithSubscribers(rootLoginFilters)
         return (rootLoginFilters == []) | (not rootLoginAlarmDefined)
 
+    def iamPolicyChangeFilterAlarmOrSubscriberNotDefined(self):
+        policyChangeEvents = ['DeleteGroupPolicy', 'DeleteRolePolicy', 'DeleteUserPolicy', 'PutGroupPolicy', 'PutRolePolicy', 'PutUserPolicy',
+                               'CreatePolicy', 'DeletePolicy', 'CreatePolicyVersion', 'DeletePolicyVersion', 'AttachRolePolicy', 'DetachRolePolicy',
+                               'AttachUserPolicy', 'DetachUserPolicy', 'AttachGroupPolicy', 'DetachGroupPolicy']
+        iamPolicyChangeFiltersAlarmOrSubscriberNotDefined = False
+        for policyChangeEvent in policyChangeEvents:
+            iamPolicyChangeFilters = self._iamPolicyChangeFilters(policyChangeEvent)
+            iamPolicyChangeAlarmDefined = self._alarmsWithSubscribers(iamPolicyChangeFilters)
+            iamPolicyChangeFiltersAlarmOrSubscriberNotDefined = (iamPolicyChangeFilters == []) | (not iamPolicyChangeAlarmDefined)
+        return iamPolicyChangeFiltersAlarmOrSubscriberNotDefined
+
     def _unauthorizedOperationFilters(self):
         filters = []
         for filter in self.filters:
@@ -52,6 +63,14 @@ class LogMetricFilterSet():
             if filter.isRootLoginFilter():
                 filters.append(filter)
         return filters
+
+    def _iamPolicyChangeFilters(self, policyChangeEvent):
+        filters = []
+        for filter in self.filters:
+            if filter.isIamPolicyChangeFilter(policyChangeEvent):
+                filters.append(filter)
+        return filters
+
 
     def _alarmsWithSubscribers(self, filters):
         alarms = 0
