@@ -65,6 +65,17 @@ class LogMetricFilterSet():
             routeTableChangeFiltersAlarmOrSubscriberNotDefined = (routeTableChangeFilters == []) | (not routeTableChangeAlarmDefined)
         return routeTableChangeFiltersAlarmOrSubscriberNotDefined
 
+    def vpcChangeFilterAlarmOrSubscriberNotDefined(self):
+        vpcChangeEvents = ['CreateVpc', 'DeleteVpc', 'ModifyVpcAttribute', 'AcceptVpcPeeringConnection', 'CreateVpcPeeringConnection',
+                           'DeleteVpcPeeringConnection', 'RejectVpcPeeringConnection', 'AttachClassicLinkVpc', 'DetachClassicLinkVpc',
+                           'DisableVpcClassicLink', 'EnableVpcClassicLink']
+        vpcChangeFiltersAlarmOrSubscriberNotDefined = False
+        for vpcChangeEvent in vpcChangeEvents:
+            vpcChangeFilters = self._eventSpecificChangeFilters(vpcChangeEvent)
+            vpcChangeAlarmDefined = self._alarmsWithSubscribers(vpcChangeFilters)
+            vpcChangeFiltersAlarmOrSubscriberNotDefined = (vpcChangeFilters == []) | (not vpcChangeAlarmDefined)
+        return vpcChangeFiltersAlarmOrSubscriberNotDefined
+
     def _unauthorizedOperationFilters(self):
         filters = []
         for filter in self.filters:

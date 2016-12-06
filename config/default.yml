@@ -31,3 +31,4 @@ MonitoringLevel1:
   testMetricFilterAndAlarmExistForCloudtrailConfigChanges: True
   testMetricFilterAndAlarmExistForNetworkGatewayChanges: True
   testMetricFilterAndAlarmExistForRouteTableChanges: True
+  testMetricFilterAndAlarmExistForVpcChanges: True

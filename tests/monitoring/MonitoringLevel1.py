@@ -97,6 +97,19 @@ class MonitoringLevel1(unittest.TestCase):
                     trailsWithoutAlarmsForRouteTableChanges.append(trail)
         self.assertEqual([], trailsWithoutAlarmsForRouteTableChanges, 'Trail(s) without alarms for route table changes: %s. Recommendation: 3.13' % self._trails(trailsWithoutAlarmsForRouteTableChanges))
 
+    def testMetricFilterAndAlarmExistForVpcChanges(self):
+        trailsWithoutAlarmsForVpcChanges = []
+        trails = self._getTrails()
+        self.assertNotEqual([], trails, "No trails defined. Recommendation: 3.14")
+        for trail in trails:
+            if trail.cloudWatchLogGroup is None:
+                trailsWithoutAlarmsForVpcChanges.append(trail)
+            else:
+                metricFilters = LogMetricFilterSet(CloudWatchLogs().getMetricFilters(trail.cloudWatchLogGroup)['metricFilters'])
+                if metricFilters.vpcChangeFilterAlarmOrSubscriberNotDefined():
+                    trailsWithoutAlarmsForVpcChanges.append(trail)
+        self.assertEqual([], trailsWithoutAlarmsForVpcChanges, 'Trail(s) without alarms for VPC changes: %s. Recommendation: 3.14' % self._trails(trailsWithoutAlarmsForVpcChanges))
+
     def _getTrails(self):
         trails = []
         for cloudTrail in CloudTrail().getTrails()['trailList']:
