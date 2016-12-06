@@ -15,7 +15,7 @@ class MonitoringLevel1(unittest.TestCase):
                 trailsWithoutAlarmsForUnauthorizedApiCalls.append(trail)
             else:
                 metricFilters = LogMetricFilterSet(CloudWatchLogs().getMetricFilters(trail.cloudWatchLogGroup)['metricFilters'])
-                if metricFilters.accessDeniedFilterAlarmOrSubscriberNotDefined() | metricFilters.unauthorizedOperationFilterAlarmOrSubscriberNotDefined():
+                if metricFilters.unauthorizedApiCallFilterAlarmOrSubscriberNotDefined():
                     trailsWithoutAlarmsForUnauthorizedApiCalls.append(trail)
         self.assertEqual([], trailsWithoutAlarmsForUnauthorizedApiCalls, 'Trail(s) without alarms for unauthorized API calls: %s. Recommendation: 3.1' % self._trails(trailsWithoutAlarmsForUnauthorizedApiCalls))
 

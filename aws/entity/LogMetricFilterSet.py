@@ -6,15 +6,14 @@ class LogMetricFilterSet():
         for filter in metricFilters:
             self.filters.append(LogMetricFilter(filter))
 
-    def unauthorizedOperationFilterAlarmOrSubscriberNotDefined(self):
+    def unauthorizedApiCallFilterAlarmOrSubscriberNotDefined(self):
         unauthorizedOperationFilters = self._unauthorizedOperationFilters()
         unauthorizedOperationAlarmDefined = self._alarmsWithSubscribers(unauthorizedOperationFilters)
-        return (unauthorizedOperationFilters == []) | (not unauthorizedOperationAlarmDefined)
-
-    def accessDeniedFilterAlarmOrSubscriberNotDefined(self):
+        unauthorizedOperationFilterAlarmOrSubscriberNotDefined = (unauthorizedOperationFilters == []) | (not unauthorizedOperationAlarmDefined)
         accessDeniedFilters = self._accessDeniedFilters()
         accessDeniedAlarmDefined = self._alarmsWithSubscribers(accessDeniedFilters)
-        return (accessDeniedFilters == []) | (not accessDeniedAlarmDefined)
+        accessDeniedFilterAlarmOrSubscriberNotDefined = (accessDeniedFilters == []) | (not accessDeniedAlarmDefined)
+        return unauthorizedOperationFilterAlarmOrSubscriberNotDefined | accessDeniedFilterAlarmOrSubscriberNotDefined
 
     def loginWithoutMfaFilterAlarmOrSubscriberNotDefined(self):
         loginWithoutMfaFilters = self._loginWithoutMfaFilters()
