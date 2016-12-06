@@ -29,3 +29,4 @@ MonitoringLevel1:
   testMetricFilterAndAlarmExistForRootLogin: True
   testMetricFilterAndAlarmExistForIamPolicyChanges: True
   testMetricFilterAndAlarmExistForCloudtrailConfigChanges: True
+  testMetricFilterAndAlarmExistForNetworkGatewayChanges: True

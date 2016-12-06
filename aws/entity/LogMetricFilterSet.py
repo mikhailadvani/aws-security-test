@@ -31,7 +31,7 @@ class LogMetricFilterSet():
                                'AttachUserPolicy', 'DetachUserPolicy', 'AttachGroupPolicy', 'DetachGroupPolicy']
         iamPolicyChangeFiltersAlarmOrSubscriberNotDefined = False
         for policyChangeEvent in policyChangeEvents:
-            iamPolicyChangeFilters = self._iamPolicyChangeFilters(policyChangeEvent)
+            iamPolicyChangeFilters = self._eventSpecificChangeFilters(policyChangeEvent)
             iamPolicyChangeAlarmDefined = self._alarmsWithSubscribers(iamPolicyChangeFilters)
             iamPolicyChangeFiltersAlarmOrSubscriberNotDefined = (iamPolicyChangeFilters == []) | (not iamPolicyChangeAlarmDefined)
         return iamPolicyChangeFiltersAlarmOrSubscriberNotDefined
@@ -40,10 +40,20 @@ class LogMetricFilterSet():
         configChangeEvents = ['CreateTrail', 'UpdateTrail', 'DeleteTrail', 'StartLogging', 'StopLogging']
         cloudtrailConfigChangeFiltersAlarmOrSubscriberNotDefined = False
         for configChangeEvent in configChangeEvents:
-            cloudtrailConfigChangeFilters = self._cloudtrailConfigChangeFilters(configChangeEvent)
+            cloudtrailConfigChangeFilters = self._eventSpecificChangeFilters(configChangeEvent)
             cloudtrailConfigChangeAlarmDefined = self._alarmsWithSubscribers(cloudtrailConfigChangeFilters)
             cloudtrailConfigChangeFiltersAlarmOrSubscriberNotDefined = (cloudtrailConfigChangeFilters == []) | (not cloudtrailConfigChangeAlarmDefined)
         return cloudtrailConfigChangeFiltersAlarmOrSubscriberNotDefined
+
+    def networkGatewayChangeFilterAlarmOrSubscriberNotDefined(self):
+        networkGatewayChangeEvents = ['CreateCustomerGateway', 'DeleteCustomerGateway', 'AttachInternetGateway', 'CreateInternetGateway',
+                                      'DeleteInternetGateway', 'DetachInternetGateway']
+        networkGatewayChangeFiltersAlarmOrSubscriberNotDefined = False
+        for networkGatewayChangeEvent in networkGatewayChangeEvents:
+            networkGatewayChangeFilters = self._eventSpecificChangeFilters(networkGatewayChangeEvent)
+            networkGatewayChangeAlarmDefined = self._alarmsWithSubscribers(networkGatewayChangeFilters)
+            networkGatewayChangeFiltersAlarmOrSubscriberNotDefined = (networkGatewayChangeFilters == []) | (not networkGatewayChangeAlarmDefined)
+        return networkGatewayChangeFiltersAlarmOrSubscriberNotDefined
 
     def _unauthorizedOperationFilters(self):
         filters = []
@@ -73,17 +83,10 @@ class LogMetricFilterSet():
                 filters.append(filter)
         return filters
 
-    def _iamPolicyChangeFilters(self, policyChangeEvent):
+    def _eventSpecificChangeFilters(self, changeEvent):
         filters = []
         for filter in self.filters:
-            if filter.isEventNameSpecificFilter(policyChangeEvent):
-                filters.append(filter)
-        return filters
-
-    def _cloudtrailConfigChangeFilters(self, configChangeEvent):
-        filters = []
-        for filter in self.filters:
-            if filter.isEventNameSpecificFilter(configChangeEvent):
+            if filter.isEventNameSpecificFilter(changeEvent):
                 filters.append(filter)
         return filters
 
