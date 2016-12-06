@@ -36,6 +36,15 @@ class LogMetricFilterSet():
             iamPolicyChangeFiltersAlarmOrSubscriberNotDefined = (iamPolicyChangeFilters == []) | (not iamPolicyChangeAlarmDefined)
         return iamPolicyChangeFiltersAlarmOrSubscriberNotDefined
 
+    def cloudtrailConfigChangeFilterAlarmOrSubscriberNotDefined(self):
+        configChangeEvents = ['CreateTrail', 'UpdateTrail', 'DeleteTrail', 'StartLogging', 'StopLogging']
+        cloudtrailConfigChangeFiltersAlarmOrSubscriberNotDefined = False
+        for configChangeEvent in configChangeEvents:
+            cloudtrailConfigChangeFilters = self._cloudtrailConfigChangeFilters(configChangeEvent)
+            cloudtrailConfigChangeAlarmDefined = self._alarmsWithSubscribers(cloudtrailConfigChangeFilters)
+            cloudtrailConfigChangeFiltersAlarmOrSubscriberNotDefined = (cloudtrailConfigChangeFilters == []) | (not cloudtrailConfigChangeAlarmDefined)
+        return cloudtrailConfigChangeFiltersAlarmOrSubscriberNotDefined
+
     def _unauthorizedOperationFilters(self):
         filters = []
         for filter in self.filters:
@@ -67,10 +76,16 @@ class LogMetricFilterSet():
     def _iamPolicyChangeFilters(self, policyChangeEvent):
         filters = []
         for filter in self.filters:
-            if filter.isIamPolicyChangeFilter(policyChangeEvent):
+            if filter.isEventNameSpecificFilter(policyChangeEvent):
                 filters.append(filter)
         return filters
 
+    def _cloudtrailConfigChangeFilters(self, configChangeEvent):
+        filters = []
+        for filter in self.filters:
+            if filter.isEventNameSpecificFilter(configChangeEvent):
+                filters.append(filter)
+        return filters
 
     def _alarmsWithSubscribers(self, filters):
         alarms = 0
