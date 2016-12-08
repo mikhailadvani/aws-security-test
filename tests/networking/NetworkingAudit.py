@@ -2,7 +2,7 @@ import unittest
 from aws.api import EC2
 from aws.entity import SecurityGroup
 
-class NetworkingLevel1(unittest.TestCase):
+class NetworkingAudit(unittest.TestCase):
     def testSshNotOpenFromInternet(self):
         securityGroups = self._getSecurityGroupsWithProtocolPortOpenFromInternet('tcp', 22)
         self.assertEqual([], securityGroups, "Security group(s) with SSH allowed from Internet[vpcId:groupId]: %s. Recommendation: 4.1" % self._groupIdsVpcIds(securityGroups))

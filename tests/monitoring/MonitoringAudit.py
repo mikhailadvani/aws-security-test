@@ -5,7 +5,7 @@ from aws.entity import Trail
 from aws.api import CloudWatchLogs
 from aws.entity import LogMetricFilterSet
 
-class MonitoringLevel1(unittest.TestCase):
+class MonitoringAudit(unittest.TestCase):
     def testMetricFilterAndAlarmExistForUnauthorizedApiCalls(self):
         trailsWithoutAlarmsForUnauthorizedApiCalls = []
         trails = self._getTrails()

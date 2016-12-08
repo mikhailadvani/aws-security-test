@@ -6,7 +6,7 @@ from aws.entity import S3BucketAcl
 from aws.entity import S3BucketPolicy
 from aws.entity import S3BucketLogging
 
-class LoggingLevel1(unittest.TestCase):
+class LoggingAudit(unittest.TestCase):
     def testCloudtrailEnabledForAllRegions(self):
         trailEnabledForAllRegions = False
         for trail in self._getTrails():

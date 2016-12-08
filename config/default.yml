@@ -1,35 +1,39 @@
-NetworkingLevel1:
-  testSshNotOpenFromInternet: True
-  testRdpNotOpenFromInternet: True
+Networking:
+  Level1:
+    testSshNotOpenFromInternet: True
+    testRdpNotOpenFromInternet: True
 
-IamLevel1:
-  testRootAccountLoginIsAvoided: True
-  testMfaEnabledForConsoleUsers: True
-  testUnusedCredentialsAreDeactivated: True
-  testAccessKeysAreRotated: True
-  testPasswordPolicyRequiresUpperCaseLetters: True
-  testPasswordPolicyRequiresLowerCaseLetters: True
-  testPasswordPolicyRequiresNumbers: True
-  testPasswordPolicyRequiresSymbols: True
-  testPasswordPolicyRequiresMinimumLength: True
-  testPasswordPolicyPreventsPasswordReuse: True
-  testPasswordPolicyEnsuresPasswordExpiry: True
-  testRootAccountHasNoActiveAccessKeys: True
-  testPoliciesAreNotAttachedToUsers: True
+Iam:
+  Level1:
+    testRootAccountLoginIsAvoided: True
+    testMfaEnabledForConsoleUsers: True
+    testUnusedCredentialsAreDeactivated: True
+    testAccessKeysAreRotated: True
+    testPasswordPolicyRequiresUpperCaseLetters: True
+    testPasswordPolicyRequiresLowerCaseLetters: True
+    testPasswordPolicyRequiresNumbers: True
+    testPasswordPolicyRequiresSymbols: True
+    testPasswordPolicyRequiresMinimumLength: True
+    testPasswordPolicyPreventsPasswordReuse: True
+    testPasswordPolicyEnsuresPasswordExpiry: True
+    testRootAccountHasNoActiveAccessKeys: True
+    testPoliciesAreNotAttachedToUsers: True
 
-LoggingLevel1:
-  testCloudtrailEnabledForAllRegions: True
-  testCloudTrailValidationIsEnabled: False
-  testCloudTrialsLogsAreIntegratedWithCloudWatch: True
-  testCloudTrailLogsS3BucketIsNotPublic: True
-  testCloudTrailLogsS3BucketHasAccessLoggingEnabled: True
+Logging:
+  Level1:
+    testCloudtrailEnabledForAllRegions: True
+    testCloudTrailValidationIsEnabled: False
+    testCloudTrialsLogsAreIntegratedWithCloudWatch: True
+    testCloudTrailLogsS3BucketIsNotPublic: True
+    testCloudTrailLogsS3BucketHasAccessLoggingEnabled: True
 
-MonitoringLevel1:
-  testMetricFilterAndAlarmExistForUnauthorizedApiCalls: True
-  testMetricFilterAndAlarmExistForLoginWithoutMfa: True
-  testMetricFilterAndAlarmExistForRootLogin: True
-  testMetricFilterAndAlarmExistForIamPolicyChanges: True
-  testMetricFilterAndAlarmExistForCloudtrailConfigChanges: True
-  testMetricFilterAndAlarmExistForNetworkGatewayChanges: True
-  testMetricFilterAndAlarmExistForRouteTableChanges: True
-  testMetricFilterAndAlarmExistForVpcChanges: True
+Monitoring:
+  Level1:
+    testMetricFilterAndAlarmExistForUnauthorizedApiCalls: True
+    testMetricFilterAndAlarmExistForLoginWithoutMfa: True
+    testMetricFilterAndAlarmExistForRootLogin: True
+    testMetricFilterAndAlarmExistForIamPolicyChanges: True
+    testMetricFilterAndAlarmExistForCloudtrailConfigChanges: True
+    testMetricFilterAndAlarmExistForNetworkGatewayChanges: True
+    testMetricFilterAndAlarmExistForRouteTableChanges: True
+    testMetricFilterAndAlarmExistForVpcChanges: True

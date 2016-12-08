@@ -2,10 +2,10 @@ import argparse
 import boto3
 import unittest
 import yaml
-from tests.iam import IamLevel1
-from tests.networking import NetworkingLevel1
-from tests.log import LoggingLevel1
-from tests.monitoring import MonitoringLevel1
+from tests.iam import IamAudit
+from tests.networking import NetworkingAudit
+from tests.log import LoggingAudit
+from tests.monitoring import MonitoringAudit
 
 suite = unittest.TestSuite()
 
@@ -19,10 +19,11 @@ if args.profile :
 
 testConfig = yaml.load(open(args.config, 'r'))
 
-for testCategory, tests in testConfig.iteritems():
-    for test, enabled in tests.iteritems():
-        if enabled:
-            suite.addTest(eval(testCategory)(test))
+for testCategory, levelConfig in testConfig.iteritems():
+    for level, tests in levelConfig.iteritems():
+        for test, enabled in tests.iteritems():
+            if enabled:
+                suite.addTest(eval(testCategory+"Audit")(test))
 
 runner = unittest.TextTestRunner()
 testExecution = runner.run(suite)

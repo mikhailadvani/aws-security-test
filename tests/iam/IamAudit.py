@@ -2,7 +2,7 @@ import unittest
 from aws.api import IAM
 from aws.entity import IAMUser
 
-class IamLevel1(unittest.TestCase):
+class IamAudit(unittest.TestCase):
     def testRootAccountLoginIsAvoided(self):
         for iamUser in self._getIamUserList():
             if iamUser.isRootUser():
