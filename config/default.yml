@@ -3,6 +3,7 @@ NetworkingLevel1:
   testRdpNotOpenFromInternet: True
 
 IamLevel1:
+  testRootAccountLoginIsAvoided: True
   testMfaEnabledForConsoleUsers: True
   testUnusedCredentialsAreDeactivated: True
   testAccessKeysAreRotated: True

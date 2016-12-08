@@ -27,6 +27,10 @@ Setup a config file similar to [default.yml](https://github.com/mikhailadvani/ci
 
 `python main.py -c config/default.yml -p profile_name` - Will use the credentials from the corresponding profile defined in `~/.aws/config`
 
+#### Recommendation that have not been automated
+
+* **Recommendation 1.1**: Avoid the use of "root" account. Since avoid is a subjective term, assertion would be incorrect. The last login of root user would be written to `root_login.txt` for reference. Also recommendation 3.3 asks for an alarm for "root" login which provides traceability for "root" logins.   
+
 # Development
 #### Requirements
 - **Vagrant** : Version 1.8.5

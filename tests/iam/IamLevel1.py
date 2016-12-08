@@ -3,6 +3,12 @@ from aws.api import IAM
 from aws.entity import IAMUser
 
 class IamLevel1(unittest.TestCase):
+    def testRootAccountLoginIsAvoided(self):
+        for iamUser in self._getIamUserList():
+            if iamUser.isRootUser():
+                file = open('root_login.txt', 'w')
+                file.write(iamUser.passwordLastUsed)
+
     def testMfaEnabledForConsoleUsers(self):
         iamUsersWithoutMfa = []
         for iamUser in self._getIamUserList():
