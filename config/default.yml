@@ -22,10 +22,11 @@ Iam:
 Logging:
   Level1:
     testCloudtrailEnabledForAllRegions: True
-    testCloudTrailValidationIsEnabled: False
     testCloudTrialsLogsAreIntegratedWithCloudWatch: True
     testCloudTrailLogsS3BucketIsNotPublic: True
     testCloudTrailLogsS3BucketHasAccessLoggingEnabled: True
+  Level2:
+    testCloudTrailValidationIsEnabled: True
 
 Monitoring:
   Level1:
