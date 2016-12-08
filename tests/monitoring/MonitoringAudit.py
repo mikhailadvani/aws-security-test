@@ -71,6 +71,19 @@ class MonitoringAudit(unittest.TestCase):
                     trailsWithoutAlarmsForCloudtrailConfigChanges.append(trail)
         self.assertEqual([], trailsWithoutAlarmsForCloudtrailConfigChanges, 'Trail(s) without alarms for cloudtrail config changes: %s. Recommendation: 3.5' % self._trails(trailsWithoutAlarmsForCloudtrailConfigChanges))
 
+    def testMetricFilterAndAlarmExistForSecurityGroupChanges(self):
+        trailsWithoutAlarmsForSecurityGroupChanges = []
+        trails = self._getTrails()
+        self.assertNotEqual([], trails, "No trails defined. Recommendation: 3.10")
+        for trail in trails:
+            if trail.cloudWatchLogGroup is None:
+                trailsWithoutAlarmsForSecurityGroupChanges.append(trail)
+            else:
+                metricFilters = LogMetricFilterSet(CloudWatchLogs().getMetricFilters(trail.cloudWatchLogGroup)['metricFilters'])
+                if metricFilters.securityGroupChangeFilterAlarmOrSubscriberNotDefined():
+                    trailsWithoutAlarmsForSecurityGroupChanges.append(trail)
+        self.assertEqual([], trailsWithoutAlarmsForSecurityGroupChanges, 'Trail(s) without alarms for security group changes: %s. Recommendation: 3.10' % self._trails(trailsWithoutAlarmsForSecurityGroupChanges))
+
     def testMetricFilterAndAlarmExistForNetworkGatewayChanges(self):
         trailsWithoutAlarmsForNetworkGatewayChanges = []
         trails = self._getTrails()

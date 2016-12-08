@@ -45,6 +45,16 @@ class LogMetricFilterSet():
             cloudtrailConfigChangeFiltersAlarmOrSubscriberNotDefined = (cloudtrailConfigChangeFilters == []) | (not cloudtrailConfigChangeAlarmDefined)
         return cloudtrailConfigChangeFiltersAlarmOrSubscriberNotDefined
 
+    def securityGroupChangeFilterAlarmOrSubscriberNotDefined(self):
+        securityGroupChangeEvents = ['AuthorizeSecurityGroupIngress', 'AuthorizeSecurityGroupEgress', 'RevokeSecurityGroupIngress',
+                                     'RevokeSecurityGroupEgress', 'CreateSecurityGroup', 'DeleteSecurityGroup']
+        securityGroupChangeFiltersAlarmOrSubscriberNotDefined = False
+        for securityGroupChangeEvent in securityGroupChangeEvents:
+            securityGroupChangeFilters = self._eventSpecificChangeFilters(securityGroupChangeEvent)
+            securityGroupChangeAlarmDefined = self._alarmsWithSubscribers(securityGroupChangeFilters)
+            securityGroupChangeFiltersAlarmOrSubscriberNotDefined = (securityGroupChangeFilters == []) | (not securityGroupChangeAlarmDefined)
+        return securityGroupChangeFiltersAlarmOrSubscriberNotDefined
+
     def networkGatewayChangeFilterAlarmOrSubscriberNotDefined(self):
         networkGatewayChangeEvents = ['CreateCustomerGateway', 'DeleteCustomerGateway', 'AttachInternetGateway', 'CreateInternetGateway',
                                       'DeleteInternetGateway', 'DetachInternetGateway']
