@@ -55,6 +55,16 @@ class LogMetricFilterSet():
             securityGroupChangeFiltersAlarmOrSubscriberNotDefined = (securityGroupChangeFilters == []) | (not securityGroupChangeAlarmDefined)
         return securityGroupChangeFiltersAlarmOrSubscriberNotDefined
 
+    def networkAclChangeFilterAlarmOrSubscriberNotDefined(self):
+        networkAclChangeEvents = ['CreateNetworkAcl', 'CreateNetworkAclEntry', 'DeleteNetworkAcl', 'DeleteNetworkAclEntry',
+                                  'ReplaceNetworkAclEntry', 'ReplaceNetworkAclAssociation']
+        networkAclChangeFiltersAlarmOrSubscriberNotDefined = False
+        for networkAclChangeEvent in networkAclChangeEvents:
+            networkAclChangeFilters = self._eventSpecificChangeFilters(networkAclChangeEvent)
+            networkAclChangeAlarmDefined = self._alarmsWithSubscribers(networkAclChangeFilters)
+            networkAclChangeFiltersAlarmOrSubscriberNotDefined = (networkAclChangeFilters == []) | (not networkAclChangeAlarmDefined)
+        return networkAclChangeFiltersAlarmOrSubscriberNotDefined
+
     def networkGatewayChangeFilterAlarmOrSubscriberNotDefined(self):
         networkGatewayChangeEvents = ['CreateCustomerGateway', 'DeleteCustomerGateway', 'AttachInternetGateway', 'CreateInternetGateway',
                                       'DeleteInternetGateway', 'DetachInternetGateway']

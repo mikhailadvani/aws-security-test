@@ -39,3 +39,4 @@ Monitoring:
     testMetricFilterAndAlarmExistForVpcChanges: True
   Level2:
     testMetricFilterAndAlarmExistForSecurityGroupChanges: True
+    testMetricFilterAndAlarmExistForNetworkAclChanges: True
