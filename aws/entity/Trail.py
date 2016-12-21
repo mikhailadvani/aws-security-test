@@ -1,4 +1,5 @@
 import datetime
+from dateutil.parser import parse
 import re
 from aws.api import CloudTrail
 
@@ -17,12 +18,6 @@ class Trail():
 
     def cloudWatchUpdated(self, hours):
         lastUpdated = str(CloudTrail().getTrailStatus(self.name)['LatestDeliveryTime'])
-        now = str(datetime.datetime.now())
-        timeSinceLastUpdate = self._parseDate(now) - self._parseDate(lastUpdated)
+        now = str(datetime.datetime.now()) + "+00:00"
+        timeSinceLastUpdate = parse(now) - parse(lastUpdated)
         return (timeSinceLastUpdate.seconds / 3600) <= hours
-
-    def _parseDate(self, dateStr):
-        timezoneSplit = dateStr.split('-')[0:3]
-        timezoneRemovedTimestamp = "-".join(timezoneSplit)
-        datetimeFormat = '%Y-%m-%d %H:%M:%S.%f'
-        return datetime.datetime.strptime(timezoneRemovedTimestamp, datetimeFormat)
