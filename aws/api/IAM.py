@@ -1,11 +1,12 @@
 import boto3
+import time
 
 class IAM:
     def __init__(self):
         self.iam = boto3.client('iam')
 
     def getCredentialReport(self):
-        self.iam.generate_credential_report()
+        self._generateCredentialReport()
         credentialReportCsv = self.iam.get_credential_report()['Content']
         return self._credentialReportDict(credentialReportCsv)
 
@@ -14,6 +15,12 @@ class IAM:
 
     def getUserPolicies(self, user):
         return self.iam.list_attached_user_policies(UserName=user)
+
+    def _generateCredentialReport(self):
+        credentialReport = self.iam.generate_credential_report()
+        while credentialReport['State'] != 'COMPLETE':
+            time.sleep(5)
+            credentialReport = self.iam.generate_credential_report()
 
     def _credentialReportDict(self, csvReport):
         credentialReportDict = []
