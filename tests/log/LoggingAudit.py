@@ -32,7 +32,7 @@ class LoggingAudit(unittest.TestCase):
 
     def testCloudTrialsLogsAreIntegratedWithCloudWatch(self):
         trailsNotIntegratedWithCloudWatch = []
-        cloudWatchNotUpdatedThreshold = 1
+        cloudWatchNotUpdatedThreshold = 24
         for trail in self._getTrails():
             if not trail.cloudWatchUpdated(cloudWatchNotUpdatedThreshold):
                 trailsNotIntegratedWithCloudWatch.append(trail)
