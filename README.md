@@ -1,6 +1,6 @@
 # Runtime
 #### Requirements
-- **Python**: 2.6.6
+- **Python**: 2.7.12
 - **Boto3**: 1.4.1
 
 #### Configuring Tests
@@ -35,6 +35,10 @@ Setup a config file similar to [default.yml](https://github.com/mikhailadvani/ci
 #### Requirements
 - **Vagrant** : Version 1.8.5
 - **VirtualBox** : Version 5.1.4
+
+#### Notes:
+
+- Python in the vagrant box is 2.6.6. Upgrade needs to be done manually
 
 # License
 Apache License 2.0

@@ -46,15 +46,15 @@ class IamAudit(unittest.TestCase):
 
     def testPasswordPolicyRequiresMinimumLength(self):
         requirePasswordLength = 14
-        self.assertTrue(self._getPasswordPolicyField('MinimumPasswordLength') >= requirePasswordLength, "Password policy does not mandate required minimum length of password. Recommendation: 1.9")
+        self.assertGreaterEqual(self._getPasswordPolicyField('MinimumPasswordLength'), requirePasswordLength, "Password policy does not mandate required minimum length of password. Recommendation: 1.9")
 
     def testPasswordPolicyPreventsPasswordReuse(self):
         requiredPasswordsToRemember = 24
-        self.assertTrue(self._getPasswordPolicyField('PasswordReusePrevention', 0) >= requiredPasswordsToRemember, "Password policy does not mandate minimum password re-use prevention. Recommendation: 1.10")
+        self.assertGreaterEqual(self._getPasswordPolicyField('PasswordReusePrevention', 0), requiredPasswordsToRemember, "Password policy does not mandate minimum password re-use prevention. Recommendation: 1.10")
 
     def testPasswordPolicyEnsuresPasswordExpiry(self):
         requiredPasswordExpirationPeriod = 90
-        self.assertTrue(self._getPasswordPolicyField('MaxPasswordAge', 1000) <= requiredPasswordExpirationPeriod, "Password policy does not mandate minimum password expiry time. Recommendation: 1.11")
+        self.assertLessEqual(self._getPasswordPolicyField('MaxPasswordAge', 1000) , requiredPasswordExpirationPeriod, "Password policy does not mandate minimum password expiry time. Recommendation: 1.11")
 
     def testRootAccountHasNoActiveAccessKeys(self):
         rootUser = None
