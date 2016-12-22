@@ -2,6 +2,7 @@ import argparse
 import boto3
 import unittest
 import yaml
+from third_party_modules import HTMLTestRunner
 from tests.iam import IamAudit
 from tests.networking import NetworkingAudit
 from tests.log import LoggingAudit
@@ -25,6 +26,12 @@ for testCategory, levelConfig in testConfig.iteritems():
             if enabled:
                 suite.addTest(eval(testCategory+"Audit")(test))
 
-runner = unittest.TextTestRunner()
+reportFile = open("test_results.html", "w")
+runner = HTMLTestRunner.HTMLTestRunner(
+    stream=reportFile,
+    title='cis-aws-automation - Audit Report',
+    verbosity=2
+)
+
 testExecution = runner.run(suite)
 exit(len(testExecution.failures) + len(testExecution.errors))
