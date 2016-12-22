@@ -82,7 +82,7 @@ class MonitoringAudit(unittest.TestCase):
                 metricFilters = LogMetricFilterSet(CloudWatchLogs().getMetricFilters(trail.cloudWatchLogGroup)['metricFilters'])
                 if metricFilters.s3PolicyChangeFilterAlarmOrSubscriberNotDefined():
                     trailsWithoutAlarmsForS3PolicyChanges.append(trail)
-        self.assertEqual([], trailsWithoutAlarmsForS3PolicyChanges, 'Trail(s) without alarms for S3 policy changes: %s. Recommendation: 3.5' % self._trails(trailsWithoutAlarmsForS3PolicyChanges))
+        self.assertEqual([], trailsWithoutAlarmsForS3PolicyChanges, 'Trail(s) without alarms for S3 policy changes: %s. Recommendation: 3.8' % self._trails(trailsWithoutAlarmsForS3PolicyChanges))
 
     def testMetricFilterAndAlarmExistForSecurityGroupChanges(self):
         trailsWithoutAlarmsForSecurityGroupChanges = []
