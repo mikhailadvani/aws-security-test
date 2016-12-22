@@ -31,7 +31,7 @@ class LogMetricFilterSet():
                                'AttachUserPolicy', 'DetachUserPolicy', 'AttachGroupPolicy', 'DetachGroupPolicy']
         iamPolicyChangeFiltersAlarmOrSubscriberNotDefined = False
         for policyChangeEvent in policyChangeEvents:
-            iamPolicyChangeFilters = self._eventSpecificChangeFilters(policyChangeEvent)
+            iamPolicyChangeFilters = self._eventNameFilters(policyChangeEvent)
             iamPolicyChangeAlarmDefined = self._alarmsWithSubscribers(iamPolicyChangeFilters)
             iamPolicyChangeFiltersAlarmOrSubscriberNotDefined = (iamPolicyChangeFilters == []) | (not iamPolicyChangeAlarmDefined)
         return iamPolicyChangeFiltersAlarmOrSubscriberNotDefined
@@ -40,17 +40,27 @@ class LogMetricFilterSet():
         configChangeEvents = ['CreateTrail', 'UpdateTrail', 'DeleteTrail', 'StartLogging', 'StopLogging']
         cloudtrailConfigChangeFiltersAlarmOrSubscriberNotDefined = False
         for configChangeEvent in configChangeEvents:
-            cloudtrailConfigChangeFilters = self._eventSpecificChangeFilters(configChangeEvent)
+            cloudtrailConfigChangeFilters = self._eventNameFilters(configChangeEvent)
             cloudtrailConfigChangeAlarmDefined = self._alarmsWithSubscribers(cloudtrailConfigChangeFilters)
             cloudtrailConfigChangeFiltersAlarmOrSubscriberNotDefined = (cloudtrailConfigChangeFilters == []) | (not cloudtrailConfigChangeAlarmDefined)
         return cloudtrailConfigChangeFiltersAlarmOrSubscriberNotDefined
+
+    def s3PolicyChangeFilterAlarmOrSubscriberNotDefined(self):
+        s3PolicyChangeEvents = ['PutBucketAcl', 'PutBucketPolicy', 'PutBucketCors', 'PutBucketLifecycle', 'PutBucketReplication',
+                                'DeleteBucketPolicy', 'DeleteBucketCors', 'DeleteBucketLifecycle', 'DeleteBucketReplication']
+        s3PolicyChangeFiltersAlarmOrSubscriberNotDefined = False
+        for s3PolicyChangeEvent in s3PolicyChangeEvents:
+            s3PolicyChangeFilters = self._eventSourceWithNameFilters('s3.amazonaws.com',s3PolicyChangeEvent)
+            s3PolicyChangeAlarmDefined = self._alarmsWithSubscribers(s3PolicyChangeFilters)
+            s3PolicyChangeFiltersAlarmOrSubscriberNotDefined = (s3PolicyChangeFilters == []) | (not s3PolicyChangeAlarmDefined)
+        return s3PolicyChangeFiltersAlarmOrSubscriberNotDefined
 
     def securityGroupChangeFilterAlarmOrSubscriberNotDefined(self):
         securityGroupChangeEvents = ['AuthorizeSecurityGroupIngress', 'AuthorizeSecurityGroupEgress', 'RevokeSecurityGroupIngress',
                                      'RevokeSecurityGroupEgress', 'CreateSecurityGroup', 'DeleteSecurityGroup']
         securityGroupChangeFiltersAlarmOrSubscriberNotDefined = False
         for securityGroupChangeEvent in securityGroupChangeEvents:
-            securityGroupChangeFilters = self._eventSpecificChangeFilters(securityGroupChangeEvent)
+            securityGroupChangeFilters = self._eventNameFilters(securityGroupChangeEvent)
             securityGroupChangeAlarmDefined = self._alarmsWithSubscribers(securityGroupChangeFilters)
             securityGroupChangeFiltersAlarmOrSubscriberNotDefined = (securityGroupChangeFilters == []) | (not securityGroupChangeAlarmDefined)
         return securityGroupChangeFiltersAlarmOrSubscriberNotDefined
@@ -60,7 +70,7 @@ class LogMetricFilterSet():
                                   'ReplaceNetworkAclEntry', 'ReplaceNetworkAclAssociation']
         networkAclChangeFiltersAlarmOrSubscriberNotDefined = False
         for networkAclChangeEvent in networkAclChangeEvents:
-            networkAclChangeFilters = self._eventSpecificChangeFilters(networkAclChangeEvent)
+            networkAclChangeFilters = self._eventNameFilters(networkAclChangeEvent)
             networkAclChangeAlarmDefined = self._alarmsWithSubscribers(networkAclChangeFilters)
             networkAclChangeFiltersAlarmOrSubscriberNotDefined = (networkAclChangeFilters == []) | (not networkAclChangeAlarmDefined)
         return networkAclChangeFiltersAlarmOrSubscriberNotDefined
@@ -70,7 +80,7 @@ class LogMetricFilterSet():
                                       'DeleteInternetGateway', 'DetachInternetGateway']
         networkGatewayChangeFiltersAlarmOrSubscriberNotDefined = False
         for networkGatewayChangeEvent in networkGatewayChangeEvents:
-            networkGatewayChangeFilters = self._eventSpecificChangeFilters(networkGatewayChangeEvent)
+            networkGatewayChangeFilters = self._eventNameFilters(networkGatewayChangeEvent)
             networkGatewayChangeAlarmDefined = self._alarmsWithSubscribers(networkGatewayChangeFilters)
             networkGatewayChangeFiltersAlarmOrSubscriberNotDefined = (networkGatewayChangeFilters == []) | (not networkGatewayChangeAlarmDefined)
         return networkGatewayChangeFiltersAlarmOrSubscriberNotDefined
@@ -80,7 +90,7 @@ class LogMetricFilterSet():
                                   'DeleteRoute', 'DisassociateRouteTable']
         routeTableChangeFiltersAlarmOrSubscriberNotDefined = False
         for routeTableChangeEvent in routeTableChangeEvents:
-            routeTableChangeFilters = self._eventSpecificChangeFilters(routeTableChangeEvent)
+            routeTableChangeFilters = self._eventNameFilters(routeTableChangeEvent)
             routeTableChangeAlarmDefined = self._alarmsWithSubscribers(routeTableChangeFilters)
             routeTableChangeFiltersAlarmOrSubscriberNotDefined = (routeTableChangeFilters == []) | (not routeTableChangeAlarmDefined)
         return routeTableChangeFiltersAlarmOrSubscriberNotDefined
@@ -91,7 +101,7 @@ class LogMetricFilterSet():
                            'DisableVpcClassicLink', 'EnableVpcClassicLink']
         vpcChangeFiltersAlarmOrSubscriberNotDefined = False
         for vpcChangeEvent in vpcChangeEvents:
-            vpcChangeFilters = self._eventSpecificChangeFilters(vpcChangeEvent)
+            vpcChangeFilters = self._eventNameFilters(vpcChangeEvent)
             vpcChangeAlarmDefined = self._alarmsWithSubscribers(vpcChangeFilters)
             vpcChangeFiltersAlarmOrSubscriberNotDefined = (vpcChangeFilters == []) | (not vpcChangeAlarmDefined)
         return vpcChangeFiltersAlarmOrSubscriberNotDefined
@@ -124,10 +134,17 @@ class LogMetricFilterSet():
                 filters.append(filter)
         return filters
 
-    def _eventSpecificChangeFilters(self, changeEvent):
+    def _eventNameFilters(self, changeEvent):
         filters = []
         for filter in self.filters:
             if filter.isEventNameSpecificFilter(changeEvent):
+                filters.append(filter)
+        return filters
+
+    def _eventSourceWithNameFilters(self, eventSource, eventName):
+        filters = []
+        for filter in self.filters:
+            if filter.isCombinationOfTwoFilters('eventSource', eventSource, 'eventName', eventName):
                 filters.append(filter)
         return filters
 

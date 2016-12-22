@@ -35,6 +35,7 @@ Monitoring:
     testMetricFilterAndAlarmExistForRootLogin: True
     testMetricFilterAndAlarmExistForIamPolicyChanges: True
     testMetricFilterAndAlarmExistForCloudtrailConfigChanges: True
+    testMetricFilterAndAlarmExistForS3PolicyChanges: True
     testMetricFilterAndAlarmExistForNetworkGatewayChanges: True
     testMetricFilterAndAlarmExistForRouteTableChanges: True
     testMetricFilterAndAlarmExistForVpcChanges: True

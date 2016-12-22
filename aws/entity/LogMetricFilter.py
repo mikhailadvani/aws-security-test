@@ -32,6 +32,13 @@ class LogMetricFilter:
         regex = '(\(?)\s*\$.eventName\s*=\s*%s\s*(\)?)'
         return self._checkFilterIs(regex % configChangeEvent)
 
+    def isCombinationOfTwoFilters(self, filter1Key, filter1Value, filter2Key, filter2Value):
+        regexForFilter1 = '(\(?)\s*\$.%s\s*=\s*%s(\)?)' % (filter1Key, filter1Value)
+        regexForFilter2 = '(\(?)\s*\$.%s\s*=\s*%s(\)?)' % (filter2Key, filter2Value)
+        combinedRegex1 = '(\(?)%s(\)?)\s*&&.*(\(?)%s(\)?)' % (regexForFilter1, regexForFilter2)
+        combinedRegex2 = '(\(?)%s(\)?)\s*&&.*(\(?)%s(\)?)' % (regexForFilter2, regexForFilter1)
+        return self._checkFilterIs(combinedRegex1) | self._checkFilterIs(combinedRegex2)
+
     def fetchAlarmsWithSubscribers(self):
         metricAlarms = []
         for metricTransformation in self.metricTransformations:
