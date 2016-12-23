@@ -9,6 +9,7 @@ class Trail():
         self.logFileValidationEnabled = cloudTrailDict['LogFileValidationEnabled']
         self.name = cloudTrailDict['Name']
         self.s3bucket = cloudTrailDict['S3BucketName']
+        self.encrypted = ('KmsKeyId' in cloudTrailDict)
         if 'CloudWatchLogsLogGroupArn' in cloudTrailDict:
             self.cloudwatchLogsIntegrated = True
             self.cloudWatchLogGroup = re.search(':log-group:(.+?):\*', cloudTrailDict['CloudWatchLogsLogGroupArn']).group(1)

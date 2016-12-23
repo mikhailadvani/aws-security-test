@@ -27,6 +27,7 @@ Logging:
     testCloudTrailLogsS3BucketHasAccessLoggingEnabled: True
   Level2:
     testCloudTrailValidationIsEnabled: True
+    testCloudTrailLogsAreEncrypted: True
 
 Monitoring:
   Level1:

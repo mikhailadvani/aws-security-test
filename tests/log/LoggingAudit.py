@@ -46,6 +46,13 @@ class LoggingAudit(unittest.TestCase):
                 trailsWithPublicS3BucketsWithoutLogging.append(trail)
         self.assertEqual([], trailsWithPublicS3BucketsWithoutLogging, "Trail(s) with S3 buckets without access logging enabled: %s. Recommendation: 2.6" % self._trails(trailsWithPublicS3BucketsWithoutLogging))
 
+    def testCloudTrailLogsAreEncrypted(self):
+        trailsWithoutEncryption = []
+        for trail in self._getTrails():
+            if not trail.encrypted:
+                trailsWithoutEncryption.append(trail)
+        self.assertEqual([], trailsWithoutEncryption, "Trail(s) without KMS encryption on S3: %s. Recommendation: 2.7" % self._trails(trailsWithoutEncryption))
+
     def _getTrails(self):
         trails = []
         for cloudTrail in CloudTrail().getTrails()['trailList']:
