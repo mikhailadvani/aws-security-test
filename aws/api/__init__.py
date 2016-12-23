@@ -5,3 +5,4 @@ from S3 import S3
 from CloudWatchLogs import CloudWatchLogs
 from CloudWatch import CloudWatch
 from SNS import SNS
+from KMS import KMS

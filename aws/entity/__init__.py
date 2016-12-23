@@ -7,3 +7,4 @@ from S3BucketLogging import S3BucketLogging
 from LogMetricFilter import LogMetricFilter
 from LogMetricFilterSet import LogMetricFilterSet
 from MetricAlarm import MetricAlarm
+from KMSKey import KMSKey

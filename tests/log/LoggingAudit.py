@@ -5,6 +5,8 @@ from aws.api import S3
 from aws.entity import S3BucketAcl
 from aws.entity import S3BucketPolicy
 from aws.entity import S3BucketLogging
+from aws.api import KMS
+from aws.entity import KMSKey
 
 class LoggingAudit(unittest.TestCase):
     def testCloudtrailEnabledForAllRegions(self):
@@ -53,6 +55,13 @@ class LoggingAudit(unittest.TestCase):
                 trailsWithoutEncryption.append(trail)
         self.assertEqual([], trailsWithoutEncryption, "Trail(s) without KMS encryption on S3: %s. Recommendation: 2.7" % self._trails(trailsWithoutEncryption))
 
+    def testCustomerCreatedCMKKeysAreRotationEnabled(self):
+        keysWithoutRotationEnabled = []
+        for key in self._getCMKKeys():
+            if key.enabled & (not key.rotationEnabled):
+                keysWithoutRotationEnabled.append(key)
+        self.assertEqual([], keysWithoutRotationEnabled, "CMK key(s) without rotation enabled: %s. Recommendation: 2.8" % self._getCMKKeyIds(keysWithoutRotationEnabled))
+
     def _getTrails(self):
         trails = []
         for cloudTrail in CloudTrail().getTrails()['trailList']:
@@ -64,3 +73,15 @@ class LoggingAudit(unittest.TestCase):
         for cloudtrail in cloudtrails:
             trails.append(cloudtrail.name)
         return ",".join(trails)
+
+    def _getCMKKeys(self):
+        keys = []
+        for key in KMS().getKeys()['Keys']:
+            keys.append(KMSKey(key))
+        return keys
+
+    def _getCMKKeyIds(self, keys):
+        keyIds = []
+        for key in keys:
+            keyIds.append(key.id)
+        return ",".join(keyIds)

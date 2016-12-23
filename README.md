@@ -17,6 +17,7 @@ Access needed by the users' API keys configured:
 - CloudWatchLogsReadOnlyAccess
 - CloudWatchReadOnlyAccess
 - AmazonSNSReadOnlyAccess
+- *KMSReadOnlyPolicy* - There is no pre-defined AWS Policy with the necessary privileges. The custom policy can defined as mentioned in the [documentation](https://docs.aws.amazon.com/kms/latest/developerguide/iam-policies.html#iam-policy-example-read-only-console)
 
 ##### Tests to run
 

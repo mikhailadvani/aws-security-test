@@ -28,6 +28,7 @@ Logging:
   Level2:
     testCloudTrailValidationIsEnabled: True
     testCloudTrailLogsAreEncrypted: True
+    testCustomerCreatedCMKKeysAreRotationEnabled: True
 
 Monitoring:
   Level1:
