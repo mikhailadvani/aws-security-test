@@ -40,6 +40,7 @@ Setup a config file similar to [default.yml](https://github.com/mikhailadvani/ci
 * **Recommendation 1.1**: Avoid the use of "root" account. Since avoid is a subjective term, assertion would be incorrect. The last login of root user would be written to `root_login.txt` for reference. Also recommendation 3.3 asks for an alarm for "root" login which provides traceability for "root" logins.
 * **Recommendation 1.14**: Ensure security questions are registered in the AWS account. There is no API available to fetch this information and hence automation would not be possible. Audit and remediation needs to be carried out as mentioned in the recommendation document.
 * **Recommendation 3.15**: Ensure security contact information is registered. There is no API available to fetch this information and hence automation would not be possible. Audit and remediation needs to be carried out as mentioned in the recommendation document.
+* **Recommendation 3.16**: Ensure appropriate subscribers to each SNS topic. "Appropriate" again being a subjective term, assertion would be incorrect. The list of subscribers for each SNS topic would be listed in a `sns_subscribers.csv` file for reference.
 
 # Development
 #### Requirements

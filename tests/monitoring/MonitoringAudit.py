@@ -4,6 +4,8 @@ from aws.api import CloudTrail
 from aws.entity import Trail
 from aws.api import CloudWatchLogs
 from aws.entity import LogMetricFilterSet
+from aws.api import SNS
+from aws.entity import Subscriber
 
 class MonitoringAudit(unittest.TestCase):
     def testMetricFilterAndAlarmExistForUnauthorizedApiCalls(self):
@@ -148,6 +150,12 @@ class MonitoringAudit(unittest.TestCase):
                 if metricFilters.vpcChangeFilterAlarmOrSubscriberNotDefined():
                     trailsWithoutAlarmsForVpcChanges.append(trail)
         self.assertEqual([], trailsWithoutAlarmsForVpcChanges, 'Trail(s) without alarms for VPC changes: %s. Recommendation: 3.14' % self._trails(trailsWithoutAlarmsForVpcChanges))
+
+    def testSNSTopicsHaveAppropriateSubscribers(self):
+        file = open('sns_subscribers.csv', 'w')
+        file.write("Topic Owner, Subscription ID, Protocol, Endpoint, Subscriber (Account ID)")
+        for subscription in SNS().getAllSubscriptions()['Subscriptions']:
+            file.write(Subscriber(subscription).getCsv())
 
     def _getTrails(self):
         trails = []

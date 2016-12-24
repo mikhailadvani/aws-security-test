@@ -41,6 +41,7 @@ Monitoring:
     testMetricFilterAndAlarmExistForNetworkGatewayChanges: True
     testMetricFilterAndAlarmExistForRouteTableChanges: True
     testMetricFilterAndAlarmExistForVpcChanges: True
+    testSNSTopicsHaveAppropriateSubscribers: True
   Level2:
     testMetricFilterAndAlarmExistForSecurityGroupChanges: True
     testMetricFilterAndAlarmExistForNetworkAclChanges: True

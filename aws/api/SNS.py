@@ -6,3 +6,6 @@ class SNS:
 
     def getSubscriptions(self, topicArn):
         return self.sns.list_subscriptions_by_topic(TopicArn=topicArn)
+
+    def getAllSubscriptions(self):
+        return self.sns.list_subscriptions()
