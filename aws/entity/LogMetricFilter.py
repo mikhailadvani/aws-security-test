@@ -26,12 +26,12 @@ class LogMetricFilter:
         return isFilter
 
     def isEventNameSpecificFilter(self, configChangeEvent):
-        regex = '(\(?)\s*\$.eventName\s*=\s*%s\s*(\)?)'
+        regex = '(\(?)\s*\$.eventName\s*=\s*("?)%s("?)\s*(\)?)'
         return self._checkFilterIs(regex % configChangeEvent)
 
     def isCombinationOfTwoFilters(self, filter1Key, filter1Value, filter2Key, filter2Value, operator1='=', operator2='='):
-        regexForFilter1 = '(\(?)\s*\$.%s\s*%s\s*%s(\)?)' % (filter1Key, operator1, filter1Value)
-        regexForFilter2 = '(\(?)\s*\$.%s\s*%s\s*%s(\)?)' % (filter2Key, operator2, filter2Value)
+        regexForFilter1 = '(\(?)\s*\$.%s\s*%s\s*("?)%s("?)(\)?)' % (filter1Key, operator1, filter1Value)
+        regexForFilter2 = '(\(?)\s*\$.%s\s*%s\s*("?)%s("?)(\)?)' % (filter2Key, operator2, filter2Value)
         combinedRegex1 = '(\(?)%s(\)?)\s*&&.*(\(?)%s(\)?)' % (regexForFilter1, regexForFilter2)
         combinedRegex2 = '(\(?)%s(\)?)\s*&&.*(\(?)%s(\)?)' % (regexForFilter2, regexForFilter1)
         return self._checkFilterIs(combinedRegex1) | self._checkFilterIs(combinedRegex2)
