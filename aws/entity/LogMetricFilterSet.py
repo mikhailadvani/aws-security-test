@@ -20,6 +20,11 @@ class LogMetricFilterSet():
         loginWithoutMfaAlarmDefined = self._alarmsWithSubscribers(loginWithoutMfaFilters)
         return (loginWithoutMfaFilters == []) | (not loginWithoutMfaAlarmDefined)
 
+    def consoleAuthFailureFilterAlarmOrSubscriberNotDefined(self):
+        consoleAuthFailureFilters = self._consoleAuthFailureFilters()
+        consoleAuthFailureAlarmDefined = self._alarmsWithSubscribers(consoleAuthFailureFilters)
+        return (consoleAuthFailureFilters == []) | (not consoleAuthFailureAlarmDefined)
+
     def rootLoginFilterAlarmOrSubscriberNotDefined(self):
         rootLoginFilters = self._rootLoginFilters()
         rootLoginAlarmDefined = self._alarmsWithSubscribers(rootLoginFilters)
@@ -123,7 +128,14 @@ class LogMetricFilterSet():
     def _loginWithoutMfaFilters(self):
         filters = []
         for filter in self.filters:
-            if filter.isCombinationOfTwoFilters('additionalEventData.MFAUsed', '"Yes"','eventName', '"ConsoleLogin"', '!='):
+            if filter.isCombinationOfTwoFilters('additionalEventData.MFAUsed', 'Yes','eventName', 'ConsoleLogin', '!='):
+                filters.append(filter)
+        return filters
+
+    def _consoleAuthFailureFilters(self):
+        filters = []
+        for filter in self.filters:
+            if filter.isCombinationOfTwoFilters('errorMessage', 'Failed authentication','eventName', 'ConsoleLogin'):
                 filters.append(filter)
         return filters
 

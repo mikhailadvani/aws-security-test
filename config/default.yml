@@ -45,3 +45,4 @@ Monitoring:
   Level2:
     testMetricFilterAndAlarmExistForSecurityGroupChanges: True
     testMetricFilterAndAlarmExistForNetworkAclChanges: True
+    testMetricFilterAndAlarmExistForConsoleAuthFailure: True

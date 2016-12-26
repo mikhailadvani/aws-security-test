@@ -73,6 +73,19 @@ class MonitoringAudit(unittest.TestCase):
                     trailsWithoutAlarmsForCloudtrailConfigChanges.append(trail)
         self.assertEqual([], trailsWithoutAlarmsForCloudtrailConfigChanges, 'Trail(s) without alarms for cloudtrail config changes: %s. Recommendation: 3.5' % self._trails(trailsWithoutAlarmsForCloudtrailConfigChanges))
 
+    def testMetricFilterAndAlarmExistForConsoleAuthFailure(self):
+        trailsWithoutAlarmsForConsoleAuthFailures = []
+        trails = self._getTrails()
+        self.assertNotEqual([], trails, "No trails defined. Recommendation: 3.6")
+        for trail in trails:
+            if trail.cloudWatchLogGroup is None:
+                trailsWithoutAlarmsForConsoleAuthFailures.append(trail)
+            else:
+                metricFilters = LogMetricFilterSet(CloudWatchLogs().getMetricFilters(trail.cloudWatchLogGroup)['metricFilters'])
+                if metricFilters.consoleAuthFailureFilterAlarmOrSubscriberNotDefined():
+                    trailsWithoutAlarmsForConsoleAuthFailures.append(trail)
+        self.assertEqual([], trailsWithoutAlarmsForConsoleAuthFailures, 'Trail(s) without alarms for web console auth failures: %s. Recommendation: 3.6' % self._trails(trailsWithoutAlarmsForConsoleAuthFailures))
+
     def testMetricFilterAndAlarmExistForS3PolicyChanges(self):
         trailsWithoutAlarmsForS3PolicyChanges = []
         trails = self._getTrails()
