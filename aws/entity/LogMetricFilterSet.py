@@ -123,7 +123,7 @@ class LogMetricFilterSet():
     def _loginWithoutMfaFilters(self):
         filters = []
         for filter in self.filters:
-            if filter.isLoginWithoutMfaFilter():
+            if filter.isCombinationOfTwoFilters('additionalEventData.MFAUsed', '"Yes"','eventName', '"ConsoleLogin"', '!='):
                 filters.append(filter)
         return filters
 

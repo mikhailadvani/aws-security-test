@@ -16,9 +16,6 @@ class LogMetricFilter:
     def isAccessDeniedFilter(self):
         return self._checkFilterIs('\s*({?)\s*(\(?)\$.errorCode\s*=\s*\"AccessDenied\*\"\s*(\)?)\s*(}?)\s*')
 
-    def isLoginWithoutMfaFilter(self):
-        return self._checkFilterIs('\s*{\s*\$.userIdentity.sessionContext.attributes.mfaAuthenticated\s*!=\s*\"true\"\s*}\s*')
-
     def isRootLoginFilter(self):
         isFilter = False
         regexes = ['\s*\$.userIdentity.type\s*=\s*\"Root\"\s*', '\s*\$.userIdentity.invokedBy\s+NOT\s+EXISTS\s+', '\s*\$.eventType\s*!=\s*\"AwsServiceEvent\"\s*']
@@ -32,9 +29,9 @@ class LogMetricFilter:
         regex = '(\(?)\s*\$.eventName\s*=\s*%s\s*(\)?)'
         return self._checkFilterIs(regex % configChangeEvent)
 
-    def isCombinationOfTwoFilters(self, filter1Key, filter1Value, filter2Key, filter2Value):
-        regexForFilter1 = '(\(?)\s*\$.%s\s*=\s*%s(\)?)' % (filter1Key, filter1Value)
-        regexForFilter2 = '(\(?)\s*\$.%s\s*=\s*%s(\)?)' % (filter2Key, filter2Value)
+    def isCombinationOfTwoFilters(self, filter1Key, filter1Value, filter2Key, filter2Value, operator1='=', operator2='='):
+        regexForFilter1 = '(\(?)\s*\$.%s\s*%s\s*%s(\)?)' % (filter1Key, operator1, filter1Value)
+        regexForFilter2 = '(\(?)\s*\$.%s\s*%s\s*%s(\)?)' % (filter2Key, operator2, filter2Value)
         combinedRegex1 = '(\(?)%s(\)?)\s*&&.*(\(?)%s(\)?)' % (regexForFilter1, regexForFilter2)
         combinedRegex2 = '(\(?)%s(\)?)\s*&&.*(\(?)%s(\)?)' % (regexForFilter2, regexForFilter1)
         return self._checkFilterIs(combinedRegex1) | self._checkFilterIs(combinedRegex2)
