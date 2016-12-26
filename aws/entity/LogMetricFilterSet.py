@@ -50,7 +50,7 @@ class LogMetricFilterSet():
                                 'DeleteBucketPolicy', 'DeleteBucketCors', 'DeleteBucketLifecycle', 'DeleteBucketReplication']
         s3PolicyChangeFiltersAlarmOrSubscriberNotDefined = False
         for s3PolicyChangeEvent in s3PolicyChangeEvents:
-            s3PolicyChangeFilters = self._eventSourceWithNameFilters('s3.amazonaws.com',s3PolicyChangeEvent)
+            s3PolicyChangeFilters = self._twoFilterCombination('eventSource','s3.amazonaws.com', 'eventName', s3PolicyChangeEvent)
             s3PolicyChangeAlarmDefined = self._alarmsWithSubscribers(s3PolicyChangeFilters)
             s3PolicyChangeFiltersAlarmOrSubscriberNotDefined = (s3PolicyChangeFilters == []) | (not s3PolicyChangeAlarmDefined)
         return s3PolicyChangeFiltersAlarmOrSubscriberNotDefined
@@ -141,10 +141,10 @@ class LogMetricFilterSet():
                 filters.append(filter)
         return filters
 
-    def _eventSourceWithNameFilters(self, eventSource, eventName):
+    def _twoFilterCombination(self, key1, value1, key2, value2):
         filters = []
         for filter in self.filters:
-            if filter.isCombinationOfTwoFilters('eventSource', eventSource, 'eventName', eventName):
+            if filter.isCombinationOfTwoFilters(key1, value1, key2, value2):
                 filters.append(filter)
         return filters
 
