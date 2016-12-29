@@ -1,5 +1,7 @@
 import boto3
 import time
+from botocore.client import ClientError
+
 class CloudWatch:
     def __init__(self):
         self.cloudWatch = boto3.client('cloudwatch')
