@@ -17,5 +17,5 @@ class CloudWatch:
             alarms = self.cloudWatch.describe_alarms_for_metric(MetricName=metricName, Namespace=namespace)
         except ClientError:
             time.sleep(sleepForIfFailed)
-            sleepForIfFailed(metricName, namespace, sleepForIfFailed * 2)
+            self._getAlarms(metricName, namespace, sleepForIfFailed * 2)
         return alarms
