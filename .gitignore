@@ -2,6 +2,7 @@
 .vagrant
 .DS_Store
 *.pyc
+*.iml
 root_login.txt
 build
 test_results.html

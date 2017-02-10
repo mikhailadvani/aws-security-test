@@ -35,7 +35,7 @@ elif args.report == 'html':
     reportFile = open("test_results.html", "w")
     runner = HTMLTestRunner.HTMLTestRunner(
         stream=reportFile,
-        title='cis-aws-automation - Audit Report',
+        title='aws-security-test - Report',
         verbosity=2
     )
 else:

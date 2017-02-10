@@ -21,19 +21,19 @@ Access needed by the users' API keys configured:
 
 ##### Tests to run
 
-Setup a config file similar to [default.yml](https://github.com/mikhailadvani/cis-aws-automation/blob/master/config/default.yml) to execute desired tests. Value for each test should be `True` or `False`.
+Setup a config file similar to [default.yml](https://github.com/mikhailadvani/aws-security-test/blob/master/config/default.yml) to execute desired tests. Value for each test should be `True` or `False`.
 
 #### Execution Steps
 
 ##### Run as script
-`python cis_aws_automation.py -c config/default.yml` - Will use the credentials from the environment variables if found or will fall back to the default profile in `~/.aws/config`
+`python aws_security_test.py -c config/default.yml` - Will use the credentials from the environment variables if found or will fall back to the default profile in `~/.aws/config`
 
-`python cis_aws_automation.py -c config/default.yml -p profile_name` - Will use the credentials from the corresponding profile defined in `~/.aws/config`
+`python aws_security_test.py -c config/default.yml -p profile_name` - Will use the credentials from the corresponding profile defined in `~/.aws/config`
 
 ##### Run installed module
-`python -m cis_aws_automation -c config/default.yml`
+`python -m aws_security_test -c config/default.yml`
 
-`python -m cis_aws_automation -c config/default.yml -p profile_name`
+`python -m aws_security_test -c config/default.yml -p profile_name`
 
 #### Recommendation that have not been automated
 
