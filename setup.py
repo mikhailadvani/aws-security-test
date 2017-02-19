@@ -1,12 +1,12 @@
 from setuptools import setup
 
-setup(name='cis_aws_automation',
+setup(name='aws-security-test',
       version='0.0.1',
-      description='Test automation to determine compliance with CIS benchmarks for AWS',
-      url='https://github.com/mikhailadvani/cis-aws-automation',
+      description='Test automation to determine adherence to pre-defined set of security recommendations',
+      url='https://github.com/mikhailadvani/aws-security-test',
       author='Mikhail Advani',
       author_email='mikhail.advani@gmail.com',
-      license='Apach',
+      license='Apache',
       packages=['tests', 'aws'],
       install_requires=[
           'boto3',

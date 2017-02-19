@@ -4,7 +4,7 @@ Vagrant.configure("2") do |config|
   config.vm.box_url = "http://cloud.centos.org/centos/6/vagrant/x86_64/images/CentOS-6.box"
   vagrant_folder = "/vagrant/playbooks"
   config.vm.synced_folder "./playbooks", vagrant_folder, :nfs => true
-  config.vm.synced_folder "../../cis-aws-automation", "/opt/cis-aws-automation" , :nfs => true
+  config.vm.synced_folder "../../aws-security-test", "/opt/aws-security-test" , :nfs => true
   config.vm.network :private_network, ip: "192.168.51.4"
 
   config.vm.provider "virtualbox" do |vb|
