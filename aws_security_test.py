@@ -21,12 +21,12 @@ if args.profile :
 
 testConfig = yaml.load(open(args.config, 'r'))
 
-for testCategory, levelConfig in testConfig.iteritems():
-    for level, tests in levelConfig.iteritems():
-        for test, enabled in tests.iteritems():
-            if enabled:
-                suite.addTest(eval(testCategory+"Audit")(test))
+# for testCategory, levelConfig in testConfig.iteritems():
 
+for testCategory, tests in testConfig.iteritems():
+    for test, enabled in tests.iteritems():
+        if enabled:
+            suite.addTest(eval(testCategory+"Audit")(test))
 runner = ''
 
 if args.report == 'text':

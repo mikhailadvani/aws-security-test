@@ -6,7 +6,7 @@ class IamAudit(unittest.TestCase):
     def testRootAccountLoginIsAvoided(self):
         for iamUser in self._getIamUserList():
             if iamUser.isRootUser():
-                file = open('root_login.txt', 'w')
+                file = open('artifacts/root_login.txt', 'w')
                 file.write(iamUser.passwordLastUsed)
 
     def testMfaEnabledForConsoleUsers(self):

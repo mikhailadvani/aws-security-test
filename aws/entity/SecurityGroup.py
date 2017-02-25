@@ -15,3 +15,9 @@ class SecurityGroup:
         for securityGroupRule in self.securityGroupRules:
             accessAllowed = accessAllowed | securityGroupRule.accessToProtocolPortAllowedFromInternet(protocol, port)
         return accessAllowed
+
+    def inboundAccessOpenFromInternet(self):
+        accessAllowed = False
+        for securityGroupRule in self.securityGroupRules:
+            accessAllowed = accessAllowed | securityGroupRule.accessAllowedFromInternet()
+        return accessAllowed

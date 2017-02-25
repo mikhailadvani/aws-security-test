@@ -3,7 +3,8 @@
 .DS_Store
 *.pyc
 *.iml
-root_login.txt
 build
 test_results.html
-sns_subscribers.csv
+artifacts/root_login.txt
+artifacts/sns_subscribers.csv
+artifacts/internet_open_security_groups.csv

@@ -4,20 +4,43 @@ from aws.entity import SecurityGroup
 
 class NetworkingAudit(unittest.TestCase):
     def testSshNotOpenFromInternet(self):
-        securityGroups = self._getSecurityGroupsWithProtocolPortOpenFromInternet('tcp', 22)
-        self.assertEqual([], securityGroups, "Security group(s) with SSH allowed from Internet[vpcId:groupId]: %s. Recommendation: 4.1" % self._groupIdsVpcIds(securityGroups))
+        allSecurityGroups = self._getAllSecurityGroups()
+        sshOpenSecurityGroups = self._filterSecurityGroupsWithProtocolPortOpenFromInternet(allSecurityGroups, 'tcp', 22)
+        self.assertEqual([], sshOpenSecurityGroups, "Security group(s) with SSH allowed from Internet[vpcId:groupId]: %s. Recommendation: 4.1" % self._groupIdsVpcIds(sshOpenSecurityGroups))
 
     def testRdpNotOpenFromInternet(self):
-        securityGroups = self._getSecurityGroupsWithProtocolPortOpenFromInternet('tcp', 3389)
-        self.assertEqual([], securityGroups, "Security group(s) with RDP allowed from Internet[vpcId:groupId]: %s. Recommendation: 4.2" % self._groupIdsVpcIds(securityGroups))
+        allSecurityGroups = self._getAllSecurityGroups()
+        rdpOpenSecurityGroups = self._filterSecurityGroupsWithProtocolPortOpenFromInternet(allSecurityGroups, 'tcp', 3389)
+        self.assertEqual([], rdpOpenSecurityGroups, "Security group(s) with RDP allowed from Internet[vpcId:groupId]: %s. Recommendation: 4.2" % self._groupIdsVpcIds(rdpOpenSecurityGroups))
 
-    def _getSecurityGroupsWithProtocolPortOpenFromInternet(self, protocol, port):
+    def testPortsOpenFromTheInternet(self):
+        allSecurityGroups = self._getAllSecurityGroups()
+        internetOpenSecurityGroups = self._filterSecurityGroupsWithAccessOpenFromInternet(allSecurityGroups)
+        file = open('artifacts/internet_open_security_groups.csv', 'w')
+        file.write("VPC ID, Security Group ID")
+        for securityGroup in self._groupIdsVpcIds(internetOpenSecurityGroups).split(','):
+            file.write('\n'+ securityGroup.replace(':',','))
+
+    def _getAllSecurityGroups(self):
         securityGroups = []
         for sg in EC2().getSecurityGroups()['SecurityGroups']:
             securityGroup = SecurityGroup(sg['VpcId'], sg['GroupId'], sg['IpPermissions'])
-            if securityGroup.inboundProtocolPortOpenFromInternet(protocol, port):
-                securityGroups.append(securityGroup)
+            securityGroups.append(securityGroup)
         return securityGroups
+
+    def _filterSecurityGroupsWithAccessOpenFromInternet(self, securityGroups):
+        sgs = []
+        for securityGroup in securityGroups:
+            if securityGroup.inboundAccessOpenFromInternet():
+                sgs.append(securityGroup)
+        return sgs
+
+    def _filterSecurityGroupsWithProtocolPortOpenFromInternet(self, securityGroups, protocol, port):
+        sgs = []
+        for securityGroup in securityGroups:
+            if securityGroup.inboundProtocolPortOpenFromInternet(protocol, port):
+                sgs.append(securityGroup)
+        return sgs
 
     def _groupIdsVpcIds(self, securityGroups):
         ids = []

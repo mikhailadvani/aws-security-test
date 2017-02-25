@@ -1,48 +1,43 @@
 Networking:
-  Level1:
-    testSshNotOpenFromInternet: True
-    testRdpNotOpenFromInternet: True
+  testSshNotOpenFromInternet: True
+  testRdpNotOpenFromInternet: True
+  testPortsOpenFromTheInternet: True
 
 Iam:
-  Level1:
-    testRootAccountLoginIsAvoided: True
-    testMfaEnabledForConsoleUsers: True
-    testUnusedCredentialsAreDeactivated: True
-    testAccessKeysAreRotated: True
-    testPasswordPolicyRequiresUpperCaseLetters: True
-    testPasswordPolicyRequiresLowerCaseLetters: True
-    testPasswordPolicyRequiresNumbers: True
-    testPasswordPolicyRequiresSymbols: True
-    testPasswordPolicyRequiresMinimumLength: True
-    testPasswordPolicyPreventsPasswordReuse: True
-    testPasswordPolicyEnsuresPasswordExpiry: True
-    testRootAccountHasNoActiveAccessKeys: True
-    testPoliciesAreNotAttachedToUsers: True
+  testRootAccountLoginIsAvoided: True
+  testMfaEnabledForConsoleUsers: True
+  testUnusedCredentialsAreDeactivated: True
+  testAccessKeysAreRotated: True
+  testPasswordPolicyRequiresUpperCaseLetters: True
+  testPasswordPolicyRequiresLowerCaseLetters: True
+  testPasswordPolicyRequiresNumbers: True
+  testPasswordPolicyRequiresSymbols: True
+  testPasswordPolicyRequiresMinimumLength: True
+  testPasswordPolicyPreventsPasswordReuse: True
+  testPasswordPolicyEnsuresPasswordExpiry: True
+  testRootAccountHasNoActiveAccessKeys: True
+  testPoliciesAreNotAttachedToUsers: True
 
 Logging:
-  Level1:
-    testCloudtrailEnabledForAllRegions: True
-    testCloudTrialsLogsAreIntegratedWithCloudWatch: True
-    testCloudTrailLogsS3BucketIsNotPublic: True
-    testCloudTrailLogsS3BucketHasAccessLoggingEnabled: True
-  Level2:
-    testCloudTrailValidationIsEnabled: True
-    testCloudTrailLogsAreEncrypted: True
-    testCustomerCreatedCMKKeysAreRotationEnabled: True
+  testCloudtrailEnabledForAllRegions: True
+  testCloudTrialsLogsAreIntegratedWithCloudWatch: True
+  testCloudTrailLogsS3BucketIsNotPublic: True
+  testCloudTrailLogsS3BucketHasAccessLoggingEnabled: True
+  testCloudTrailValidationIsEnabled: True
+  testCloudTrailLogsAreEncrypted: True
+  testCustomerCreatedCMKKeysAreRotationEnabled: True
 
 Monitoring:
-  Level1:
-    testMetricFilterAndAlarmExistForUnauthorizedApiCalls: True
-    testMetricFilterAndAlarmExistForLoginWithoutMfa: True
-    testMetricFilterAndAlarmExistForRootLogin: True
-    testMetricFilterAndAlarmExistForIamPolicyChanges: True
-    testMetricFilterAndAlarmExistForCloudtrailConfigChanges: True
-    testMetricFilterAndAlarmExistForS3PolicyChanges: True
-    testMetricFilterAndAlarmExistForNetworkGatewayChanges: True
-    testMetricFilterAndAlarmExistForRouteTableChanges: True
-    testMetricFilterAndAlarmExistForVpcChanges: True
-    testSNSTopicsHaveAppropriateSubscribers: True
-  Level2:
-    testMetricFilterAndAlarmExistForSecurityGroupChanges: True
-    testMetricFilterAndAlarmExistForNetworkAclChanges: True
-    testMetricFilterAndAlarmExistForConsoleAuthFailure: True
+  testMetricFilterAndAlarmExistForUnauthorizedApiCalls: True
+  testMetricFilterAndAlarmExistForLoginWithoutMfa: True
+  testMetricFilterAndAlarmExistForRootLogin: True
+  testMetricFilterAndAlarmExistForIamPolicyChanges: True
+  testMetricFilterAndAlarmExistForCloudtrailConfigChanges: True
+  testMetricFilterAndAlarmExistForS3PolicyChanges: True
+  testMetricFilterAndAlarmExistForNetworkGatewayChanges: True
+  testMetricFilterAndAlarmExistForRouteTableChanges: True
+  testMetricFilterAndAlarmExistForVpcChanges: True
+  testSNSTopicsHaveAppropriateSubscribers: True
+  testMetricFilterAndAlarmExistForSecurityGroupChanges: True
+  testMetricFilterAndAlarmExistForNetworkAclChanges: True
+  testMetricFilterAndAlarmExistForConsoleAuthFailure: True

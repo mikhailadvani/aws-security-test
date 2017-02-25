@@ -165,7 +165,7 @@ class MonitoringAudit(unittest.TestCase):
         self.assertEqual([], trailsWithoutAlarmsForVpcChanges, 'Trail(s) without alarms for VPC changes: %s. Recommendation: 3.14' % self._trails(trailsWithoutAlarmsForVpcChanges))
 
     def testSNSTopicsHaveAppropriateSubscribers(self):
-        file = open('sns_subscribers.csv', 'w')
+        file = open('artifacts/sns_subscribers.csv', 'w')
         file.write("Topic Owner, Subscription ID, Protocol, Endpoint, Subscriber (Account ID)")
         for subscription in SNS().getAllSubscriptions()['Subscriptions']:
             file.write(Subscriber(subscription).getCsv())

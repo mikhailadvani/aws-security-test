@@ -12,6 +12,9 @@ class SecurityGroupRule:
     def accessToProtocolPortAllowedFromInternet(self, protocol, port):
         return self._accessAllowedFromInternet() & (self._allProtocolsAllowed() | (self._protocolAllowed(protocol) & self._portAllowed(port)))
 
+    def accessAllowedFromInternet(self):
+        return self._accessAllowedFromInternet()
+
     def _allProtocolsAllowed(self):
         return self.protocol == '-1'
 
