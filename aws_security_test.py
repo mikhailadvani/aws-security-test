@@ -13,7 +13,7 @@ suite = unittest.TestSuite()
 parser = argparse.ArgumentParser()
 parser.add_argument("-c", "--config", type=str, help="Selects the config file")
 parser.add_argument("-p", "--profile", type=str, help="Specifies the boto profile to choose from  ~/.aws/config")
-parser.add_argument("--report", default='html', help="Prints test execution on the console rather than generating a HTML report")
+parser.add_argument("--report", default='html', help="Prints test execution on the console rather than generating a HTML report", choices=['text', 'html'])
 args = parser.parse_args()
 
 if args.profile :
