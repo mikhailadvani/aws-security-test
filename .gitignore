@@ -5,6 +5,6 @@
 *.iml
 build
 test_results.html
-artifacts/root_login.txt
-artifacts/sns_subscribers.csv
-artifacts/internet_open_security_groups.csv
+artifacts
+aws_security_test.egg-info
+dist

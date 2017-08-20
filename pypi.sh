@@ -15,15 +15,15 @@ uninstall() {
 }
 
 publishToTestPyPi() {
-    python setup.py register -r https://testpypi.python.org/pypi
-    twine upload dist/* -r testpypi
+    clean
+    python setup.py sdist bdist_wheel upload -r testpypi
     uninstall
     pip install -i https://testpypi.python.org/pypi aws_security_test
 }
 
 publishToPyPi() {
-    python setup.py register -r https://pypi.python.org/pypi
-    twine upload dist/*
+    clean
+    python setup.py sdist bdist_wheel upload
     uninstall
     pip install aws_security_test
 }

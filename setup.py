@@ -36,14 +36,14 @@ setup(name='aws-security-test',
             'Topic :: System',
             'Topic :: System :: Logging',
             'Topic :: System :: Monitoring',
-            'Topic :: System :: Networking :: Firewalls'
+            'Topic :: System :: Networking :: Firewalls',
 
             'License :: OSI Approved :: Apache Software License',
 
             'Programming Language :: Python :: 2.7'
       ],
       keywords='aws security test iam networking logging monitoring ec2 vpc',
-      packages=['tests', 'aws', 'third_party_modules'],
+      packages=['tests','tests.iam', 'tests.log','tests.monitoring','tests.networking', 'aws', 'aws.api','aws.entity', 'aws.util', 'third_party_modules'],
       install_requires=[
           'boto3',
           'pyyaml'
@@ -53,7 +53,7 @@ setup(name='aws-security-test',
       },
       entry_points={
             'console_scripts': [
-                  'aws_security_test=aws_security_test'
+                  'aws_security_test=tests:main'
             ],
       },
       zip_safe=False)
