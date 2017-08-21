@@ -5,11 +5,11 @@ from aws.entity import SecurityGroup
 class NetworkingAudit(unittest.TestCase):
     def testSshNotOpenFromInternet(self):
         sshOpenSecurityGroups = self._getSecurityGroupsWithProtocolPortOpenFromInternet('tcp', 22)
-        self.assertEqual([], sshOpenSecurityGroups, "Security group(s) with SSH allowed from Internet[vpcId:groupId]: %s. Recommendation: 4.1" % self._groupIdsVpcIds(sshOpenSecurityGroups))
+        self.assertEqual([], sshOpenSecurityGroups, "Security group(s) with SSH allowed from Internet[vpcId:groupId]: %s." % self._groupIdsVpcIds(sshOpenSecurityGroups))
 
     def testRdpNotOpenFromInternet(self):
         rdpOpenSecurityGroups = self._getSecurityGroupsWithProtocolPortOpenFromInternet('tcp', 3389)
-        self.assertEqual([], rdpOpenSecurityGroups, "Security group(s) with RDP allowed from Internet[vpcId:groupId]: %s. Recommendation: 4.2" % self._groupIdsVpcIds(rdpOpenSecurityGroups))
+        self.assertEqual([], rdpOpenSecurityGroups, "Security group(s) with RDP allowed from Internet[vpcId:groupId]: %s." % self._groupIdsVpcIds(rdpOpenSecurityGroups))
 
     def testPortsOpenFromTheInternet(self):
         internetOpenSecurityGroups = self._getSecurityGroupsWithAccessOpenFromInternet()
