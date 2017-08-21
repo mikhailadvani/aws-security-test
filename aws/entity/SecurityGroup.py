@@ -1,9 +1,10 @@
 from aws.util import SecurityGroupRule
 
 class SecurityGroup:
-    def __init__(self, vpcId, groupId, ipPermissions):
+    def __init__(self, vpcId, groupId, groupName, ipPermissions):
         self.vpcId = vpcId
         self.groupId = groupId
+        self.groupName = groupName
         sgRules = []
         for inboundRule in ipPermissions:
             sgRule = SecurityGroupRule(inboundRule)
@@ -21,3 +22,6 @@ class SecurityGroup:
         for securityGroupRule in self.securityGroupRules:
             accessAllowed = accessAllowed | securityGroupRule.accessAllowedFromInternet()
         return accessAllowed
+
+    def isDefault(self):
+        return self.groupName == 'default'
