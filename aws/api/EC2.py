@@ -6,3 +6,6 @@ class EC2:
 
     def getSecurityGroups(self):
         return self.ec2.describe_security_groups()
+
+    def getRouteTables(self):
+        return self.ec2.describe_route_tables()

@@ -3,6 +3,7 @@ Networking:
   testRdpNotOpenFromInternet: True
   testPortsOpenFromTheInternet: True
   testDefaultSecurityGroupsNotOpenFromInternet: True
+  testMainRouteTableIsPrivate: True
 
 Iam:
   testRootAccountLoginIsAvoided: True
